@@ -19,7 +19,7 @@ class SchemaObject(object):
       'username'
       >>> schema.version
       '5.1.30'
-      >>> schema.default_database
+      >>> schema.selected.name
       'sakila'
 
     """
