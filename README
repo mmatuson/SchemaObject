@@ -1,0 +1,39 @@
+SchemaObject v0.5  
++++++++++++++++++
+
+Introduction
+============
+SchemaObject creates an object representation of a MySQL schema including its databases, tables, columns, indexes, and foreign keys. It allows you to process and iterate over a MySQL schema through python object properties and methods.
+
+You can generate the SQL syntax for creating, altering and dropping any part of the schema. As of v0.5, a separate process is needed to push any generated changes to your database instance/schema. 
+
+Dependancies and Requirements
+=============================
+* Python 2.5
+* MySQLdb
+
+
+Installing with easy_install
+============================
+Simply run sudo easy_install schemaobject
+
+Documentation
+=============
+Documentation is available @ http://matuson.com/code/schemaobject
+
+
+Examples
+========
+Verify all tables in our database are InnoDB::
+    
+    import schemaobject
+    schema  = schemaobject.SchemaObject('mysql://username:password@localhost:3306/mydb')
+    tables = schema.databases['mydb'].tables #or schema.selected.tables
+    for t in tables:
+        assert tables[t].options['engine'].value == 'InnoDB'
+        
+Verify our MySQL instance is version 5.x+::
+
+    import schemaobject
+    schema  = schemaobject.SchemaObject('mysql://username:password@localhost:3306/mydb')
+    assert int(schema.version[:1]) >= 5 #test against the major # of the version string
