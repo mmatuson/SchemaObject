@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Schema (MySQL Instance) &mdash; SchemaObject v0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="SchemaObject v0.5 documentation" href="../index.html" />
+    <link rel="next" title="Database" href="database.html" />
+    <link rel="prev" title="SchemaObject v0.5 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="database.html" title="Database"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="SchemaObject v0.5 documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-schemaobject.schema">
+<h1>Schema (MySQL Instance)<a class="headerlink" href="#module-schemaobject.schema" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="schemaobject.schema.SchemaObject">
+<em class="property">class </em><tt class="descclassname">schemaobject.schema.</tt><tt class="descname">SchemaObject</tt><big>(</big><em>connection_url</em><big>)</big><a class="headerlink" href="#schemaobject.schema.SchemaObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object representation of a single MySQL instance. If database name is not specified in <tt class="docutils literal"><span class="pre">connection_url</span></tt>, 
+all databases on the MySQL instance will be loaded.</p>
+<p><tt class="docutils literal"><span class="pre">connection_url</span></tt> - the MySQL connection url as per <a class="reference external" href="http://www.ietf.org/rfc/rfc1738.txt">RFC1738</a></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span>  <span class="o">=</span> <span class="n">schemaobject</span><span class="o">.</span><span class="n">SchemaObject</span><span class="p">(</span><span class="s">&#39;mysql://username:password@localhost:3306/sakila&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">host</span>
+<span class="go">&#39;localhost&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">port</span>
+<span class="go">3306</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">user</span>
+<span class="go">&#39;username&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">version</span>
+<span class="go">&#39;5.1.30&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">default_database</span>
+<span class="go">&#39;sakila&#39;</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="schemaobject.schema.SchemaObject.databases">
+<tt class="descname">databases</tt><a class="headerlink" href="#schemaobject.schema.SchemaObject.databases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lazily loaded dictionary of the databases within this MySQL instance.</p>
+<p>See DatabaseSchema for usage:</p>
+<div class="highlight-python"><pre>#if database name is specified in the connection url
+&gt;&gt;&gt; len(schema.databases)
+1
+&gt;&gt;&gt; schema.databases.keys()
+['sakila']</pre>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="schemaobject.schema.SchemaObject.selected">
+<tt class="descname">selected</tt><a class="headerlink" href="#schemaobject.schema.SchemaObject.selected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the DatabaseSchema object associated with the database name in the connection url</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">selected</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;sakila&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../index.html"
+                                  title="previous chapter">SchemaObject v0.5 documentation</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="database.html"
+                                  title="next chapter">Database</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/api/schema.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="database.html" title="Database"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="SchemaObject v0.5 documentation"
+             >previous</a> |</li>
+        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Mitch Matuson.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

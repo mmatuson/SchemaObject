@@ -1,0 +1,47 @@
+:mod:`schemaobjects.table`
+==========================
+
+
+.. automodule:: schemaobjects.table
+
+
+Functions
+----------
+
+.. autofunction:: ColumnSchemaBuilder
+
+.. autofunction:: ForeignKeySchemaBuilder
+
+.. autofunction:: IndexSchemaBuilder
+
+.. autofunction:: TableSchemaBuilder
+
+
+
+
+Classes
+--------
+
+.. autoclass:: OrderedDict
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+.. autoclass:: SchemaOption
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+.. autoclass:: TableSchema
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+
+

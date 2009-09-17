@@ -1,0 +1,34 @@
+:mod:`schemaobjects.index`
+==========================
+
+
+.. automodule:: schemaobjects.index
+
+
+Functions
+----------
+
+.. autofunction:: IndexSchemaBuilder
+
+
+
+
+Classes
+--------
+
+.. autoclass:: IndexSchema
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+.. autoclass:: OrderedDict
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+
+

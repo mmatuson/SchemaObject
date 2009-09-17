@@ -1,0 +1,34 @@
+:mod:`schemaobjects.column`
+===========================
+
+
+.. automodule:: schemaobjects.column
+
+
+Functions
+----------
+
+.. autofunction:: ColumnSchemaBuilder
+
+
+
+
+Classes
+--------
+
+.. autoclass:: ColumnSchema
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+.. autoclass:: OrderedDict
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+
+

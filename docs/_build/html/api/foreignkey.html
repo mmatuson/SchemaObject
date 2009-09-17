@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Foreign Key &mdash; SchemaObject v0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="SchemaObject v0.5 documentation" href="../index.html" />
+    <link rel="next" title="Index" href="index.html" />
+    <link rel="prev" title="Database" href="database.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Index"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="database.html" title="Database"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-schemaobject.foreignkey">
+<h1>Foreign Key<a class="headerlink" href="#module-schemaobject.foreignkey" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="schemaobject.foreignkey.ForeignKeySchema">
+<em class="property">class </em><tt class="descclassname">schemaobject.foreignkey.</tt><tt class="descname">ForeignKeySchema</tt><big>(</big><em>name</em>, <em>parent</em><big>)</big><a class="headerlink" href="#schemaobject.foreignkey.ForeignKeySchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object representation of a single foreign key. 
+Supports equality and inequality comparison of ForeignKeySchema.</p>
+<p><tt class="docutils literal"><span class="pre">name</span></tt> is the column name.
+<tt class="docutils literal"><span class="pre">parent</span></tt> is an instance of TableSchema</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ForeignKeySchema objects are automatically created for you by ForeignKeySchemaBuilder 
+and loaded under <tt class="docutils literal"><span class="pre">schema.databases[name].tables[name].foreign_keys</span></tt></p>
+</div>
+<p>Example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;fk_rental_customer&#39;, &#39;fk_rental_inventory&#39;, &#39;fk_rental_staff&#39;]</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Foreign Key Attributes</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;fk_rental_inventory&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">symbol</span>
+<span class="go">&#39;fk_rental_inventory&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">table_schema</span>
+<span class="go">&#39;sakila&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">table_name</span>
+<span class="go">&#39;rental&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span>
+<span class="go">[&#39;inventory_id&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">referenced_table_name</span>
+<span class="go">&#39;inventory&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">referenced_table_schema</span>
+<span class="go">&#39;sakila&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">referenced_columns</span>
+<span class="go">[&#39;inventory_id&#39;]</span>
+<span class="go">#match_option will always be None in MySQL 5.x, 6.x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">match_option</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update_rule</span>
+<span class="go">&#39;CASCADE&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">delete_rule</span>
+<span class="go">&#39;RESTRICT&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="method">
+<dt id="schemaobject.foreignkey.ForeignKeySchema.create">
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.foreignkey.ForeignKeySchema.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the SQL to create (ADD) this foreign key</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="go">&#39;ADD CONSTRAINT `fk_rental_inventory` </span>
+<span class="go">FOREIGN KEY `fk_rental_inventory` (`inventory_id`) </span>
+<span class="go">REFERENCES `inventory` (`inventory_id`) </span>
+<span class="go">ON DELETE RESTRICT ON UPDATE CASCADE&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="schemaobject.foreignkey.ForeignKeySchema.drop">
+<tt class="descname">drop</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.foreignkey.ForeignKeySchema.drop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the SQL to drop this foreign key</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+<span class="go">&#39;DROP FOREIGN KEY `fk_rental_inventory`&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="schemaobject.foreignkey.ForeignKeySchemaBuilder">
+<tt class="descclassname">schemaobject.foreignkey.</tt><tt class="descname">ForeignKeySchemaBuilder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobject.foreignkey.ForeignKeySchemaBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary loaded with all of the foreign keys available in the table. 
+<tt class="docutils literal"><span class="pre">table</span></tt> must be an instance of TableSchema.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is automatically called for you and set to 
+<tt class="docutils literal"><span class="pre">schema.databases[name].tables[name].foreign_keys</span></tt> when you create an instance of SchemaObject</p>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="database.html"
+                                  title="previous chapter">Database</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="next chapter">Index</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/api/foreignkey.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Index"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="database.html" title="Database"
+             >previous</a> |</li>
+        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Mitch Matuson.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

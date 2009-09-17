@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Database &mdash; SchemaObject v0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="SchemaObject v0.5 documentation" href="../index.html" />
+    <link rel="next" title="Table" href="table.html" />
+    <link rel="prev" title="Schema (MySQL Instance)" href="schema.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="table.html" title="Table"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="schema.html" title="Schema (MySQL Instance)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-schemaobject.database">
+<h1>Database<a class="headerlink" href="#module-schemaobject.database" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="schemaobject.database.DatabaseSchema">
+<em class="property">class </em><tt class="descclassname">schemaobject.database.</tt><tt class="descname">DatabaseSchema</tt><big>(</big><em>name</em>, <em>parent</em><big>)</big><a class="headerlink" href="#schemaobject.database.DatabaseSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object representation of a single database schema
+(as per <a class="reference external" href="http://dev.mysql.com/doc/refman/5.0/en/create-database.html">CREATE DATABASE Syntax</a>). 
+Supports equality and inequality comparison of DatabaseSchemas.</p>
+<p><tt class="docutils literal"><span class="pre">name</span></tt> is the database name.
+<tt class="docutils literal"><span class="pre">parent</span></tt> is an instance of SchemaObject</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">db</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="n">db</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="gp">... </span>
+<span class="go">sakila</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;sakila&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">DatabaseSchema objects are automatically created for you for by DatabaseSchemaBuilder and loaded under <tt class="docutils literal"><span class="pre">schema.databases</span></tt></p>
+</div>
+<dl class="method">
+<dt id="schemaobject.database.DatabaseSchema.alter">
+<tt class="descname">alter</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.database.DatabaseSchema.alter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Generate the SQL to alter this database</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">alter</span><span class="p">()</span>
+<span class="go">&#39;ALTER DATABASE `sakila`&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="schemaobject.database.DatabaseSchema.create">
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.database.DatabaseSchema.create" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Generate the SQL to create this databse</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="go">&#39;CREATE DATABASE `sakila` CHARACTER SET latin1 COLLATE latin1_swedish_ci;&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="schemaobject.database.DatabaseSchema.drop">
+<tt class="descname">drop</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.database.DatabaseSchema.drop" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Generate the SQL to drop this database</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+<span class="go">&#39;DROP DATABASE `sakila`;&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="schemaobject.database.DatabaseSchema.options">
+<tt class="descname">options</tt><a class="headerlink" href="#schemaobject.database.DatabaseSchema.options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of the supported MySQL database options. See OptionSchema for usage.</p>
+<ul class="simple">
+<li>CHARACTER SET  == <tt class="docutils literal"><span class="pre">options['charset']</span></tt></li>
+<li>COLLATE == <tt class="docutils literal"><span class="pre">options['collation']</span></tt></li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="schemaobject.database.DatabaseSchema.select">
+<tt class="descname">select</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.database.DatabaseSchema.select" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Generate the SQL to select this database</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
+<span class="go">&#39;USE `sakila`;&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="schemaobject.database.DatabaseSchema.tables">
+<tt class="descname">tables</tt><a class="headerlink" href="#schemaobject.database.DatabaseSchema.tables" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Lazily loaded dictionary of all the tables within this database. See TableSchema for usage</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">)</span>
+<span class="go">16</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="schemaobject.database.DatabaseSchemaBuilder">
+<tt class="descclassname">schemaobject.database.</tt><tt class="descname">DatabaseSchemaBuilder</tt><big>(</big><em>instance</em><big>)</big><a class="headerlink" href="#schemaobject.database.DatabaseSchemaBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary loaded with all of the databases availale on the MySQL instance.
+<tt class="docutils literal"><span class="pre">instance</span></tt> must be an instance SchemaObject.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is automatically called for you and set to <tt class="docutils literal"><span class="pre">schema.databses</span></tt> when you create an instance of SchemaObject</p>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="schema.html"
+                                  title="previous chapter">Schema (MySQL Instance)</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="table.html"
+                                  title="next chapter">Table</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/api/database.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="table.html" title="Table"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="schema.html" title="Schema (MySQL Instance)"
+             >previous</a> |</li>
+        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Mitch Matuson.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SchemaObject v0.5 documentation &mdash; SchemaObject v0.5 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.5',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="SchemaObject v0.5 documentation" href="" />
+    <link rel="next" title="Schema (MySQL Instance)" href="api/schema.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="api/schema.html" title="Schema (MySQL Instance)"
+             accesskey="N">next</a> |</li>
+        <li><a href="">SchemaObject v0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="schemaobject-v0-5-documentation">
+<h1>SchemaObject v0.5 documentation<a class="headerlink" href="#schemaobject-v0-5-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>SchemaObject creates an object representation of a MySQL schema including its databases, tables, columns, indexes, and foreign keys. It allows you to process and iterate over a MySQL schema through python object properties and methods.</p>
+<p>You can generate the SQL syntax for creating, altering and dropping any part of the schema. As of v0.5, a separate process is needed to push any generated changes to your database instance/schema.</p>
+</div>
+<div class="section" id="status-license">
+<h2>Status &amp; License<a class="headerlink" href="#status-license" title="Permalink to this headline">¶</a></h2>
+<p>SchemaObject is under active development and released under the <a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>. You can obtain a copy of the latest source code from the Git repository, or fork it on Github.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dependancies-and-requirements">
+<h3>Dependancies and Requirements<a class="headerlink" href="#dependancies-and-requirements" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Python 2.5</li>
+<li>MySQLdb</li>
+</ul>
+</div>
+<div class="section" id="installing-with-easy-install">
+<h3>Installing with easy_install<a class="headerlink" href="#installing-with-easy-install" title="Permalink to this headline">¶</a></h3>
+<p>Simply run <tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">easy_install</span> <span class="pre">schemaobject</span></tt></p>
+</div>
+<div class="section" id="installing-from-source">
+<h3>Installing from source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h3>
+<p>[todo]</p>
+</div>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="api/schema.html">Schema (MySQL Instance)</a></li>
+<li class="toctree-l1"><a class="reference external" href="api/database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference external" href="api/table.html">Table</a></li>
+<li class="toctree-l1"><a class="reference external" href="api/column.html">Column</a></li>
+<li class="toctree-l1"><a class="reference external" href="api/index.html">Index</a></li>
+<li class="toctree-l1"><a class="reference external" href="api/foreignkey.html">Foreign Key</a></li>
+<li class="toctree-l1"><a class="reference external" href="api/option.html">Option</a></li>
+</ul>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>Verify all tables in our database are InnoDB:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">schemaobject</span>
+<span class="n">schema</span>  <span class="o">=</span> <span class="n">schemaobject</span><span class="o">.</span><span class="n">SchemaObject</span><span class="p">(</span><span class="s">&#39;mysql://username:password@localhost:3306/mydb&#39;</span><span class="p">)</span>
+<span class="n">tables</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;mydb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span> <span class="c">#or schema.selected.tables</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="n">tables</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;engine&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s">&#39;InnoDB&#39;</span>
+</pre></div>
+</div>
+<p>Verify our MySQL instance is version 5.x+:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">schemaobject</span>
+<span class="n">schema</span>  <span class="o">=</span> <span class="n">schemaobject</span><span class="o">.</span><span class="n">SchemaObject</span><span class="p">(</span><span class="s">&#39;mysql://username:password@localhost:3306/mydb&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">int</span><span class="p">(</span><span class="n">schema</span><span class="o">.</span><span class="n">version</span><span class="p">[:</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">5</span> <span class="c">#test against the major # of the version string</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference external" href="modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference external" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">SchemaObject v0.5 documentation</a><ul>
+<li><a class="reference external" href="#introduction">Introduction</a></li>
+<li><a class="reference external" href="#status-license">Status &amp; License</a></li>
+<li><a class="reference external" href="#installation">Installation</a><ul>
+<li><a class="reference external" href="#dependancies-and-requirements">Dependancies and Requirements</a></li>
+<li><a class="reference external" href="#installing-with-easy-install">Installing with easy_install</a></li>
+<li><a class="reference external" href="#installing-from-source">Installing from source</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#documentation">Documentation</a><ul>
+</ul>
+</li>
+<li><a class="reference external" href="#examples">Examples</a></li>
+<li><a class="reference external" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Next topic</h4>
+            <p class="topless"><a href="api/schema.html"
+                                  title="next chapter">Schema (MySQL Instance)</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/index.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api/schema.html" title="Schema (MySQL Instance)"
+             >next</a> |</li>
+        <li><a href="">SchemaObject v0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Mitch Matuson.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

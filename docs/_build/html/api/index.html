@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Index &mdash; SchemaObject v0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="SchemaObject v0.5 documentation" href="../index.html" />
+    <link rel="next" title="Option" href="option.html" />
+    <link rel="prev" title="Foreign Key" href="foreignkey.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="option.html" title="Option"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="foreignkey.html" title="Foreign Key"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-schemaobject.index">
+<h1>Index<a class="headerlink" href="#module-schemaobject.index" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="schemaobject.index.IndexSchema">
+<em class="property">class </em><tt class="descclassname">schemaobject.index.</tt><tt class="descname">IndexSchema</tt><big>(</big><em>name</em>, <em>parent</em><big>)</big><a class="headerlink" href="#schemaobject.index.IndexSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object representation of a single index. 
+Supports equality and inequality comparison of IndexSchema.</p>
+<p><tt class="docutils literal"><span class="pre">name</span></tt> is the column name.
+<tt class="docutils literal"><span class="pre">parent</span></tt> is an instance of TableSchema</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">IndexSchema objects are automatically created for you by IndexSchemaBuilder 
+and loaded under <tt class="docutils literal"><span class="pre">schema.databases[name].tables[name].indexes</span></tt></p>
+</div>
+<p>Example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;PRIMARY&#39;, &#39;rental_date&#39;, &#39;idx_fk_inventory_id&#39;, &#39;idx_fk_customer_id&#39;, &#39;idx_fk_staff_id&#39;]</span>
+</pre></div>
+</div>
+<p>Index Attributes</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;idx_fk_customer_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;idx_fk_customer_id&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;idx_fk_customer_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">table_name</span>
+<span class="go">&#39;rental&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;idx_fk_customer_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">non_unique</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;idx_fk_customer_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fields</span>
+<span class="go">[(&#39;customer_id&#39;, None)]</span>
+<span class="go">#possible types: BTREE, RTREE, HASH</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;idx_fk_customer_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">type</span>
+<span class="go">&#39;BTREE&#39;</span>
+<span class="go">#possible kinds: PRIMARY, UNIQUE, FULLTEXT, SPATIAL, INDEX</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;rental_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">kind</span>
+<span class="go">&#39;UNIQUE&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;film_text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;idx_title_description&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">kind</span>
+<span class="go">&#39;FULLTEXT&#39;</span>
+<span class="go">#fields is a list of tuples (field_name, sub_part_length)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;film_text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;idx_title_description&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fields</span>
+<span class="go">[(&#39;title&#39;, 0), (&#39;description&#39;, 0)]</span>
+<span class="go">#collation will always be A in MySQL 5.x - 6.x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;idx_fk_customer_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">collation</span>
+<span class="go">&#39;A&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;idx_fk_customer_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">comment</span>
+<span class="go">&#39;&#39;</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="schemaobject.index.IndexSchema.create">
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.index.IndexSchema.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the SQL to create (ADD) this index</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;film_text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;idx_title_description&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="go">&#39;ADD FULLTEXT INDEX `idx_title_description` (`title`, `description`)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;rental_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="go">&#39;ADD UNIQUE INDEX `rental_date` (`rental_date`, `inventory_id`, `customer_id`) USING BTREE&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="schemaobject.index.IndexSchema.drop">
+<tt class="descname">drop</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.index.IndexSchema.drop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the SQL to drop this index</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;PRIMARY&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+<span class="go">&#39;DROP PRIMARY KEY&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s">&#39;rental_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+<span class="go">&#39;DROP INDEX `rental_date`&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="schemaobject.index.IndexSchema.format_sub_part">
+<em class="property">classmethod </em><tt class="descname">format_sub_part</tt><big>(</big><em>field</em>, <em>length</em><big>)</big><a class="headerlink" href="#schemaobject.index.IndexSchema.format_sub_part" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the SQL to format the sub_part length of an indexed column name</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schemaobjects</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">IndexSchema</span><span class="o">.</span><span class="n">format_sub_part</span><span class="p">(</span><span class="s">&#39;column&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">&#39;`column`&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schemaobjects</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">IndexSchema</span><span class="o">.</span><span class="n">format_sub_part</span><span class="p">(</span><span class="s">&#39;column&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="go">&#39;`column`(5)&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="schemaobject.index.IndexSchemaBuilder">
+<tt class="descclassname">schemaobject.index.</tt><tt class="descname">IndexSchemaBuilder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobject.index.IndexSchemaBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary loaded with all of the indexes available in the table. 
+<tt class="docutils literal"><span class="pre">table</span></tt> must be an instance of TableSchema.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is automatically called for you and set to 
+<tt class="docutils literal"><span class="pre">schema.databases[name].tables[name].indexes</span></tt> when you create an instance of SchemaObject</p>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="schemaobject.index.format_sub_part">
+<em class="property">classmethod </em><tt class="descclassname">schemaobject.index.</tt><tt class="descname">format_sub_part</tt><big>(</big><em>field</em>, <em>length</em><big>)</big><a class="headerlink" href="#schemaobject.index.format_sub_part" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="foreignkey.html"
+                                  title="previous chapter">Foreign Key</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="option.html"
+                                  title="next chapter">Option</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/api/index.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="option.html" title="Option"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="foreignkey.html" title="Foreign Key"
+             >previous</a> |</li>
+        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Mitch Matuson.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

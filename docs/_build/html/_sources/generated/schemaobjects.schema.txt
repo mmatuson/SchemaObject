@@ -1,0 +1,34 @@
+:mod:`schemaobjects.schema`
+===========================
+
+
+.. automodule:: schemaobjects.schema
+
+
+Functions
+----------
+
+.. autofunction:: DatabaseSchemaBuilder
+
+
+
+
+Classes
+--------
+
+.. autoclass:: DatabaseConnection
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+.. autoclass:: SchemaObject
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+
+
