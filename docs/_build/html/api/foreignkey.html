@@ -20,8 +20,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="SchemaObject v0.5 documentation" href="../index.html" />
-    <link rel="next" title="Index" href="index.html" />
-    <link rel="prev" title="Database" href="database.html" /> 
+    <link rel="next" title="Option" href="option.html" />
+    <link rel="prev" title="Index" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,10 +34,10 @@
           <a href="../modindex.html" title="Global Module Index"
              accesskey="M">modules</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Index"
+          <a href="option.html" title="Option"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="database.html" title="Database"
+          <a href="index.html" title="Index"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
       </ul>
@@ -53,13 +53,13 @@
 <dl class="class">
 <dt id="schemaobject.foreignkey.ForeignKeySchema">
 <em class="property">class </em><tt class="descclassname">schemaobject.foreignkey.</tt><tt class="descname">ForeignKeySchema</tt><big>(</big><em>name</em>, <em>parent</em><big>)</big><a class="headerlink" href="#schemaobject.foreignkey.ForeignKeySchema" title="Permalink to this definition">¶</a></dt>
-<dd><p>Object representation of a single foreign key. 
+<dd><p>Object representation of a single foreign key.
 Supports equality and inequality comparison of ForeignKeySchema.</p>
 <p><tt class="docutils literal"><span class="pre">name</span></tt> is the column name.
 <tt class="docutils literal"><span class="pre">parent</span></tt> is an instance of TableSchema</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">ForeignKeySchema objects are automatically created for you by ForeignKeySchemaBuilder 
+<p class="last">ForeignKeySchema objects are automatically created for you by ForeignKeySchemaBuilder
 and loaded under <tt class="docutils literal"><span class="pre">schema.databases[name].tables[name].foreign_keys</span></tt></p>
 </div>
 <p>Example</p>
@@ -100,9 +100,9 @@ and loaded under <tt class="docutils literal"><span class="pre">schema.databases
 <tt class="descname">create</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.foreignkey.ForeignKeySchema.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate the SQL to create (ADD) this foreign key</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">[</span><span class="s">&#39;fk_rental_inventory&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
-<span class="go">&#39;ADD CONSTRAINT `fk_rental_inventory` </span>
-<span class="go">FOREIGN KEY `fk_rental_inventory` (`inventory_id`) </span>
-<span class="go">REFERENCES `inventory` (`inventory_id`) </span>
+<span class="go">&#39;ADD CONSTRAINT `fk_rental_inventory`</span>
+<span class="go">FOREIGN KEY `fk_rental_inventory` (`inventory_id`)</span>
+<span class="go">REFERENCES `inventory` (`inventory_id`)</span>
 <span class="go">ON DELETE RESTRICT ON UPDATE CASCADE&#39;</span>
 </pre></div>
 </div>
@@ -123,11 +123,11 @@ and loaded under <tt class="docutils literal"><span class="pre">schema.databases
 <dl class="function">
 <dt id="schemaobject.foreignkey.ForeignKeySchemaBuilder">
 <tt class="descclassname">schemaobject.foreignkey.</tt><tt class="descname">ForeignKeySchemaBuilder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobject.foreignkey.ForeignKeySchemaBuilder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a dictionary loaded with all of the foreign keys available in the table. 
+<dd><p>Returns a dictionary loaded with all of the foreign keys available in the table.
 <tt class="docutils literal"><span class="pre">table</span></tt> must be an instance of TableSchema.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">This function is automatically called for you and set to 
+<p class="last">This function is automatically called for you and set to
 <tt class="docutils literal"><span class="pre">schema.databases[name].tables[name].foreign_keys</span></tt> when you create an instance of SchemaObject</p>
 </div>
 </dd></dl>
@@ -141,11 +141,11 @@ and loaded under <tt class="docutils literal"><span class="pre">schema.databases
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <h4>Previous topic</h4>
-            <p class="topless"><a href="database.html"
-                                  title="previous chapter">Database</a></p>
-            <h4>Next topic</h4>
             <p class="topless"><a href="index.html"
-                                  title="next chapter">Index</a></p>
+                                  title="previous chapter">Index</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="option.html"
+                                  title="next chapter">Option</a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="../_sources/api/foreignkey.txt"
@@ -178,10 +178,10 @@ and loaded under <tt class="docutils literal"><span class="pre">schema.databases
           <a href="../modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Index"
+          <a href="option.html" title="Option"
              >next</a> |</li>
         <li class="right" >
-          <a href="database.html" title="Database"
+          <a href="index.html" title="Index"
              >previous</a> |</li>
         <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
       </ul>

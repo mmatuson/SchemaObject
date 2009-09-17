@@ -53,9 +53,10 @@
 <dl class="class">
 <dt id="schemaobject.schema.SchemaObject">
 <em class="property">class </em><tt class="descclassname">schemaobject.schema.</tt><tt class="descname">SchemaObject</tt><big>(</big><em>connection_url</em><big>)</big><a class="headerlink" href="#schemaobject.schema.SchemaObject" title="Permalink to this definition">¶</a></dt>
-<dd><p>Object representation of a single MySQL instance. If database name is not specified in <tt class="docutils literal"><span class="pre">connection_url</span></tt>, 
+<dd><p>Object representation of a single MySQL instance.
+If database name is not specified in <tt class="docutils literal"><span class="pre">connection_url</span></tt>,
 all databases on the MySQL instance will be loaded.</p>
-<p><tt class="docutils literal"><span class="pre">connection_url</span></tt> - the MySQL connection url as per <a class="reference external" href="http://www.ietf.org/rfc/rfc1738.txt">RFC1738</a></p>
+<p><tt class="docutils literal"><span class="pre">connection_url</span></tt> - the database url as per <a class="reference external" href="http://www.ietf.org/rfc/rfc1738.txt">RFC1738</a></p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span>  <span class="o">=</span> <span class="n">schemaobject</span><span class="o">.</span><span class="n">SchemaObject</span><span class="p">(</span><span class="s">&#39;mysql://username:password@localhost:3306/sakila&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">host</span>
 <span class="go">&#39;localhost&#39;</span>

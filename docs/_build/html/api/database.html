@@ -54,13 +54,13 @@
 <dt id="schemaobject.database.DatabaseSchema">
 <em class="property">class </em><tt class="descclassname">schemaobject.database.</tt><tt class="descname">DatabaseSchema</tt><big>(</big><em>name</em>, <em>parent</em><big>)</big><a class="headerlink" href="#schemaobject.database.DatabaseSchema" title="Permalink to this definition">¶</a></dt>
 <dd><p>Object representation of a single database schema
-(as per <a class="reference external" href="http://dev.mysql.com/doc/refman/5.0/en/create-database.html">CREATE DATABASE Syntax</a>). 
+(as per <a class="reference external" href="http://dev.mysql.com/doc/refman/5.0/en/create-database.html">CREATE DATABASE Syntax</a>).
 Supports equality and inequality comparison of DatabaseSchemas.</p>
 <p><tt class="docutils literal"><span class="pre">name</span></tt> is the database name.
 <tt class="docutils literal"><span class="pre">parent</span></tt> is an instance of SchemaObject</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">db</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="k">print</span> <span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="n">db</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
-<span class="gp">... </span>
+<span class="gp">...</span>
 <span class="go">sakila</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
 <span class="go">&#39;sakila&#39;</span>
@@ -68,7 +68,8 @@ Supports equality and inequality comparison of DatabaseSchemas.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">DatabaseSchema objects are automatically created for you for by DatabaseSchemaBuilder and loaded under <tt class="docutils literal"><span class="pre">schema.databases</span></tt></p>
+<p class="last">DatabaseSchema objects are automatically created for you 
+by DatabaseSchemaBuilder and loaded under <tt class="docutils literal"><span class="pre">schema.databases</span></tt></p>
 </div>
 <dl class="method">
 <dt id="schemaobject.database.DatabaseSchema.alter">
@@ -150,11 +151,12 @@ Supports equality and inequality comparison of DatabaseSchemas.</p>
 <dl class="function">
 <dt id="schemaobject.database.DatabaseSchemaBuilder">
 <tt class="descclassname">schemaobject.database.</tt><tt class="descname">DatabaseSchemaBuilder</tt><big>(</big><em>instance</em><big>)</big><a class="headerlink" href="#schemaobject.database.DatabaseSchemaBuilder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a dictionary loaded with all of the databases availale on the MySQL instance.
-<tt class="docutils literal"><span class="pre">instance</span></tt> must be an instance SchemaObject.</p>
+<dd><p>Returns a dictionary loaded with all of the databases availale on 
+the MySQL instance. <tt class="docutils literal"><span class="pre">instance</span></tt> must be an instance SchemaObject.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">This function is automatically called for you and set to <tt class="docutils literal"><span class="pre">schema.databses</span></tt> when you create an instance of SchemaObject</p>
+<p class="last">This function is automatically called for you and set to 
+<a href="#id1"><span class="problematic" id="id2">``</span></a>schema.databses``when you create an instance of SchemaObject</p>
 </div>
 </dd></dl>
 

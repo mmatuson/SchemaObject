@@ -14,7 +14,7 @@ You can generate the SQL syntax for creating, altering and dropping any part of 
 
 Status & License
 ================
-SchemaObject is under active development and released under the `Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0>`_. You can obtain a copy of the latest source code from the Git repository, or fork it on Github.
+SchemaObject is under active development and released under the `Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0>`_. You can obtain a copy of the latest source code from the `Git repository <http://github.com/mmatuson/SchemaObject>`_, or fork it on `Github <http://www.github.com>`_.
 
 Installation
 =============
@@ -26,12 +26,24 @@ Dependancies and Requirements
 
 Installing with easy_install
 --------------------------------
-Simply run ``sudo easy_install schemaobject``
+Simply run the following command::
 
-Installing from source
-----------------------
-[todo]
+    $ sudo easy_install schemaobject
 
+Installing the latest development version
+------------------------------------------
+
+Standard install::
+
+    $ git clone git://github.com/mmatuson/SchemaObject.git
+    $ cd schemaobject
+    $ sudo python setup.py install
+
+Development Mode::
+
+    $ git clone git://github.com/mmatuson/SchemaObject.git
+    $ cd schemaobject
+    $ sudo python setup.py develop
 
 Documentation
 =============

@@ -15,8 +15,20 @@ Dependancies and Requirements
 
 Installing with easy_install
 ============================
-Simply run sudo easy_install schemaobject
 
+    sudo easy_install schemaobject
+
+Installing the latest development version
+=========================================
+
+    $ git clone git://github.com/mmatuson/SchemaObject.git
+    $ cd schemaobject
+    $ sudo python setup.py develop
+    
+    *OR* 
+    
+    $ sudo python setup.py develop
+    
 Documentation
 =============
 Documentation is available @ http://matuson.com/code/schemaobject

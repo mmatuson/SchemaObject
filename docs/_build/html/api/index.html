@@ -20,8 +20,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="SchemaObject v0.5 documentation" href="../index.html" />
-    <link rel="next" title="Option" href="option.html" />
-    <link rel="prev" title="Foreign Key" href="foreignkey.html" /> 
+    <link rel="next" title="Foreign Key" href="foreignkey.html" />
+    <link rel="prev" title="Column" href="column.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,10 +34,10 @@
           <a href="../modindex.html" title="Global Module Index"
              accesskey="M">modules</a> |</li>
         <li class="right" >
-          <a href="option.html" title="Option"
+          <a href="foreignkey.html" title="Foreign Key"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="foreignkey.html" title="Foreign Key"
+          <a href="column.html" title="Column"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
       </ul>
@@ -53,13 +53,13 @@
 <dl class="class">
 <dt id="schemaobject.index.IndexSchema">
 <em class="property">class </em><tt class="descclassname">schemaobject.index.</tt><tt class="descname">IndexSchema</tt><big>(</big><em>name</em>, <em>parent</em><big>)</big><a class="headerlink" href="#schemaobject.index.IndexSchema" title="Permalink to this definition">¶</a></dt>
-<dd><p>Object representation of a single index. 
+<dd><p>Object representation of a single index.
 Supports equality and inequality comparison of IndexSchema.</p>
 <p><tt class="docutils literal"><span class="pre">name</span></tt> is the column name.
 <tt class="docutils literal"><span class="pre">parent</span></tt> is an instance of TableSchema</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">IndexSchema objects are automatically created for you by IndexSchemaBuilder 
+<p class="last">IndexSchema objects are automatically created for you by IndexSchemaBuilder
 and loaded under <tt class="docutils literal"><span class="pre">schema.databases[name].tables[name].indexes</span></tt></p>
 </div>
 <p>Example</p>
@@ -135,11 +135,11 @@ and loaded under <tt class="docutils literal"><span class="pre">schema.databases
 <dl class="function">
 <dt id="schemaobject.index.IndexSchemaBuilder">
 <tt class="descclassname">schemaobject.index.</tt><tt class="descname">IndexSchemaBuilder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobject.index.IndexSchemaBuilder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a dictionary loaded with all of the indexes available in the table. 
+<dd><p>Returns a dictionary loaded with all of the indexes available in the table.
 <tt class="docutils literal"><span class="pre">table</span></tt> must be an instance of TableSchema.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">This function is automatically called for you and set to 
+<p class="last">This function is automatically called for you and set to
 <tt class="docutils literal"><span class="pre">schema.databases[name].tables[name].indexes</span></tt> when you create an instance of SchemaObject</p>
 </div>
 </dd></dl>
@@ -158,11 +158,11 @@ and loaded under <tt class="docutils literal"><span class="pre">schema.databases
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <h4>Previous topic</h4>
-            <p class="topless"><a href="foreignkey.html"
-                                  title="previous chapter">Foreign Key</a></p>
+            <p class="topless"><a href="column.html"
+                                  title="previous chapter">Column</a></p>
             <h4>Next topic</h4>
-            <p class="topless"><a href="option.html"
-                                  title="next chapter">Option</a></p>
+            <p class="topless"><a href="foreignkey.html"
+                                  title="next chapter">Foreign Key</a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="../_sources/api/index.txt"
@@ -195,10 +195,10 @@ and loaded under <tt class="docutils literal"><span class="pre">schema.databases
           <a href="../modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="option.html" title="Option"
+          <a href="foreignkey.html" title="Foreign Key"
              >next</a> |</li>
         <li class="right" >
-          <a href="foreignkey.html" title="Foreign Key"
+          <a href="column.html" title="Column"
              >previous</a> |</li>
         <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
       </ul>
