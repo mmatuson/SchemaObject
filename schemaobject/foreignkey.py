@@ -20,6 +20,7 @@ def ForeignKeySchemaBuilder(table):
     """
     conn = table.parent.parent.connection
     fkeys = OrderedDict()
+
     sql = """
             SELECT K.CONSTRAINT_NAME,
                    K.TABLE_SCHEMA, K.TABLE_NAME, K.COLUMN_NAME,
@@ -131,7 +132,7 @@ class ForeignKeySchema(object):
 
         #constraint options
         self.match_option = None #will always be none in mysql 5.0-6.0
-        self.upadte_rule = None
+        self.update_rule = None
         self.delete_rule = None
 
     @classmethod
@@ -190,9 +191,8 @@ class ForeignKeySchema(object):
         if not isinstance(other, ForeignKeySchema):
             return False
 
-        return ((self.table_schema == other.table_schema)
-                and (self.table_name == other.table_name)
-                and (self.referenced_table_schema == other.referenced_table_schema)
+        # table_schema and referenced_table_schema are ignored
+        return  ((self.table_name == other.table_name)
                 and (self.referenced_table_name == other.referenced_table_name)
                 and (self.update_rule == other.update_rule)
                 and (self.delete_rule == other.delete_rule)

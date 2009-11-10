@@ -31,14 +31,20 @@ class SchemaOption(object):
           >>> schema.databases['sakila'].tables['rental'].options['auto_increment'].create()
           'AUTO_INCREMENT=1'
         """
-        if not self.value:
-            return ''
 
         # MySQL stores misc options pre-formatted in 1 field (CREATE_OPTIONS)
         if not self.name:
             return self.value
 
-        if isinstance(self.value, basestring) and ' ' in self.value:
+        if self.name == "COMMENT":
+            if not self.value:
+                self.value = ''
+            return "%s='%s'" % (self.name, self.value)
+
+        if not self.value:
+            return ''
+
+        if (isinstance(self.value, basestring) and ' ' in self.value):
             return "%s='%s'" % (self.name, self.value)
 
         return "%s=%s" % (self.name, self.value)

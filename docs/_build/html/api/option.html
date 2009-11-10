@@ -5,13 +5,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Option &mdash; SchemaObject v0.5 documentation</title>
+    <title>Option &mdash; SchemaObject v0.5.1 documentation</title>
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.5',
+        VERSION:     '0.5.1',
         COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -19,9 +19,8 @@
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="SchemaObject v0.5 documentation" href="../index.html" />
-    <link rel="next" title="Schema (MySQL Instance)" href="schema.html" />
-    <link rel="prev" title="Index" href="index.html" /> 
+    <link rel="top" title="SchemaObject v0.5.1 documentation" href="../index.html" />
+    <link rel="prev" title="Foreign Key" href="foreignkey.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,12 +33,9 @@
           <a href="../modindex.html" title="Global Module Index"
              accesskey="M">modules</a> |</li>
         <li class="right" >
-          <a href="schema.html" title="Schema (MySQL Instance)"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Index"
+          <a href="foreignkey.html" title="Foreign Key"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">SchemaObject v0.5.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -48,8 +44,42 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="option">
-<h1>Option<a class="headerlink" href="#option" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-schemaobject.option">
+<h1>Option<a class="headerlink" href="#module-schemaobject.option" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="schemaobject.option.SchemaOption">
+<em class="property">class </em><tt class="descclassname">schemaobject.option.</tt><tt class="descname">SchemaOption</tt><big>(</big><em>name</em>, <em>value=None</em><big>)</big><a class="headerlink" href="#schemaobject.option.SchemaOption" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Object representation of a database or table option</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;engine&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;ENGINE&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;engine&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+<span class="go">&#39;InnoDB&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;engine&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="go">&#39;ENGINE=InnoDB&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="method">
+<dt id="schemaobject.option.SchemaOption.create">
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.option.SchemaOption.create" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Generate the SQL for this option</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;charset&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="go">&#39;CHARSET=latin1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;engine&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="go">&#39;ENGINE=InnoDB&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;auto_increment&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="go">&#39;AUTO_INCREMENT=1&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -59,11 +89,8 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <h4>Previous topic</h4>
-            <p class="topless"><a href="index.html"
-                                  title="previous chapter">Index</a></p>
-            <h4>Next topic</h4>
-            <p class="topless"><a href="schema.html"
-                                  title="next chapter">Schema (MySQL Instance)</a></p>
+            <p class="topless"><a href="foreignkey.html"
+                                  title="previous chapter">Foreign Key</a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="../_sources/api/option.txt"
@@ -96,12 +123,9 @@
           <a href="../modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="schema.html" title="Schema (MySQL Instance)"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Index"
+          <a href="foreignkey.html" title="Foreign Key"
              >previous</a> |</li>
-        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">SchemaObject v0.5.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

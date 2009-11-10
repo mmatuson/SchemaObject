@@ -5,13 +5,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Table &mdash; SchemaObject v0.5 documentation</title>
+    <title>Table &mdash; SchemaObject v0.5.1 documentation</title>
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.5',
+        VERSION:     '0.5.1',
         COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -19,8 +19,9 @@
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="SchemaObject v0.5 documentation" href="../index.html" />
-    <link rel="prev" title="Schema (MySQL Instance)" href="schema.html" /> 
+    <link rel="top" title="SchemaObject v0.5.1 documentation" href="../index.html" />
+    <link rel="next" title="Column" href="column.html" />
+    <link rel="prev" title="Database" href="database.html" /> 
   </head>
   <body>
     <div class="related">
@@ -33,9 +34,12 @@
           <a href="../modindex.html" title="Global Module Index"
              accesskey="M">modules</a> |</li>
         <li class="right" >
-          <a href="schema.html" title="Schema (MySQL Instance)"
+          <a href="column.html" title="Column"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="database.html" title="Database"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">SchemaObject v0.5.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -44,8 +48,173 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="table">
-<h1>Table<a class="headerlink" href="#table" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-schemaobject.table">
+<h1>Table<a class="headerlink" href="#module-schemaobject.table" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="schemaobject.table.TableSchema">
+<em class="property">class </em><tt class="descclassname">schemaobject.table.</tt><tt class="descname">TableSchema</tt><big>(</big><em>name</em>, <em>parent</em><big>)</big><a class="headerlink" href="#schemaobject.table.TableSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object representation of a single table
+(as per <a class="reference external" href="http://dev.mysql.com/doc/refman/5.0/en/create-table.html">CREATE TABLE Syntax</a>).
+Supports equality and inequality comparison of TableSchema.</p>
+<p><tt class="docutils literal"><span class="pre">name</span></tt> is the column name.
+<tt class="docutils literal"><span class="pre">parent</span></tt> is an instance of DatabaseSchema</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">TableSchema objects are automatically created for you by TableSchemaBuilder
+and loaded under <tt class="docutils literal"><span class="pre">schema.databases[name].tables</span></tt></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">table options <tt class="docutils literal"><span class="pre">auto_increment</span></tt>, <tt class="docutils literal"><span class="pre">comment</span></tt> are ignored in <tt class="docutils literal"><span class="pre">__eq__</span></tt>, <tt class="docutils literal"><span class="pre">__neq__</span></tt> comparisons.</p>
+</div>
+<p>Example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;actor&#39;, &#39;address&#39;, &#39;category&#39;, &#39;city&#39;, &#39;country&#39;, &#39;customer&#39;, &#39;film&#39;,</span>
+<span class="go">  &#39;film_actor&#39;, &#39;film_category&#39;, &#39;film_text&#39;, &#39;inventory&#39;, &#39;language&#39;,</span>
+<span class="go">  &#39;payment&#39;, &#39;rental&#39;, &#39;staff&#39;, &#39;store&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;engine&#39;, &#39;charset&#39;, &#39;collation&#39;, &#39;row_format&#39;, &#39;auto_increment&#39;, &#39;create_options&#39;, &#39;comment&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;PRIMARY&#39;, &#39;rental_date&#39;, &#39;idx_fk_inventory_id&#39;, &#39;idx_fk_customer_id&#39;, &#39;idx_fk_staff_id&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;fk_rental_customer&#39;, &#39;fk_rental_inventory&#39;, &#39;fk_rental_staff&#39;]</span>
+</pre></div>
+</div>
+<p>Table Attributes</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;rental&#39;</span>
+</pre></div>
+</div>
+<p>Table Options</p>
+<ul class="simple">
+<li>ENGINE  == <tt class="docutils literal"><span class="pre">options['engine']</span></tt></li>
+<li>CHARSET, CHARACTER SET == <tt class="docutils literal"><span class="pre">options['charset']</span></tt></li>
+<li>COLLATE  == <tt class="docutils literal"><span class="pre">options['collation']</span></tt></li>
+<li>ROW_FORMAT  == <tt class="docutils literal"><span class="pre">options['row_format']</span></tt></li>
+<li>AUTO_INCREMENT  == <tt class="docutils literal"><span class="pre">options['auto_increment']</span></tt></li>
+<li>CREATE_OPTIONS == <tt class="docutils literal"><span class="pre">options['create_options']</span></tt></li>
+<li>COMMENT  == <tt class="docutils literal"><span class="pre">options['comment']</span></tt></li>
+</ul>
+<dl class="method">
+<dt id="schemaobject.table.TableSchema.alter">
+<tt class="descname">alter</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.table.TableSchema.alter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Generate the SQL to alter this table</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">alter</span><span class="p">()</span>
+<span class="go">&#39;ALTER TABLE `rental`&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="schemaobject.table.TableSchema.columns">
+<tt class="descname">columns</tt><a class="headerlink" href="#schemaobject.table.TableSchema.columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lazily loaded dictionary of all the columns within this table. See ColumnSchema for usage</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="go">7</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;rental_id&#39;, &#39;rental_date&#39;, &#39;inventory_id&#39;, &#39;customer_id&#39;, &#39;return_date&#39;, &#39;staff_id&#39;, &#39;last_update&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="schemaobject.table.TableSchema.create">
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.table.TableSchema.create" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Generate the SQL to create a this table</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="go">&#39;CREATE TABLE `rental` (</span>
+<span class="go">`rental_id` int(11) NOT NULL AUTO_INCREMENT,</span>
+<span class="go">`rental_date` datetime NOT NULL,</span>
+<span class="go">`inventory_id` mediumint(8) unsigned NOT NULL,</span>
+<span class="go">`customer_id` smallint(5) unsigned NOT NULL,</span>
+<span class="go">`return_date` datetime DEFAULT NULL,</span>
+<span class="go">`staff_id` tinyint(3) unsigned NOT NULL,</span>
+<span class="go">`last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,</span>
+<span class="go">PRIMARY KEY (`rental_id`),</span>
+<span class="go">UNIQUE KEY `rental_date` (`rental_date`,`inventory_id`,`customer_id`),</span>
+<span class="go">KEY `idx_fk_inventory_id` (`inventory_id`),</span>
+<span class="go">KEY `idx_fk_customer_id` (`customer_id`),</span>
+<span class="go">KEY `idx_fk_staff_id` (`staff_id`),</span>
+<span class="go">CONSTRAINT `fk_rental_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON UPDATE CASCADE,</span>
+<span class="go">CONSTRAINT `fk_rental_inventory` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`inventory_id`) ON UPDATE CASCADE,</span>
+<span class="go">CONSTRAINT `fk_rental_staff` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`) ON UPDATE CASCADE)</span>
+<span class="go">ENGINE=InnoDB DEFAULT CHARSET=utf8;&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="schemaobject.table.TableSchema.drop">
+<tt class="descname">drop</tt><big>(</big><big>)</big><a class="headerlink" href="#schemaobject.table.TableSchema.drop" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Generate the SQL to drop this table</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+<span class="go">&#39;DROP TABLE `rental`;&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="schemaobject.table.TableSchema.foreign_keys">
+<tt class="descname">foreign_keys</tt><a class="headerlink" href="#schemaobject.table.TableSchema.foreign_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lazily loaded dictionary of all the foreign keys within this table. See ForeignKeySchema for usage</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">foreign_keys</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;fk_rental_customer&#39;, &#39;fk_rental_inventory&#39;, &#39;fk_rental_staff&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="schemaobject.table.TableSchema.indexes">
+<tt class="descname">indexes</tt><a class="headerlink" href="#schemaobject.table.TableSchema.indexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lazily loaded dictionary of all the indexes within this table. See IndexSchema for usage</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="p">)</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;sakila&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="s">&#39;rental&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;PRIMARY&#39;, &#39;rental_date&#39;, &#39;idx_fk_inventory_id&#39;, &#39;idx_fk_customer_id&#39;, &#39;idx_fk_staff_id&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="schemaobject.table.TableSchema.options">
+<tt class="descname">options</tt><a class="headerlink" href="#schemaobject.table.TableSchema.options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of the supported MySQL table options. See OptionSchema for usage.</p>
+<ul class="simple">
+<li>ENGINE  == <tt class="docutils literal"><span class="pre">options['engine']</span></tt></li>
+<li>CHARSET, CHARACTER SET == <tt class="docutils literal"><span class="pre">options['charset']</span></tt></li>
+<li>COLLATE  == <tt class="docutils literal"><span class="pre">options['collation']</span></tt></li>
+<li>ROW_FORMAT  == <tt class="docutils literal"><span class="pre">options['row_format']</span></tt></li>
+<li>AUTO_INCREMENT  == <tt class="docutils literal"><span class="pre">options['auto_increment']</span></tt></li>
+<li>CREATE_OPTIONS == <tt class="docutils literal"><span class="pre">options['create_options']</span></tt></li>
+<li>COMMENT  == <tt class="docutils literal"><span class="pre">options['comment']</span></tt></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="schemaobject.table.TableSchemaBuilder">
+<tt class="descclassname">schemaobject.table.</tt><tt class="descname">TableSchemaBuilder</tt><big>(</big><em>database</em><big>)</big><a class="headerlink" href="#schemaobject.table.TableSchemaBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary loaded with all of the tables available in the database.
+<tt class="docutils literal"><span class="pre">database</span></tt> must be an instance of DatabaseSchema.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is automatically called for you and set to
+<tt class="docutils literal"><span class="pre">schema.databases[name].tables</span></tt> when you create an instance of SchemaObject</p>
+</div>
+</dd></dl>
+
 </div>
 
 
@@ -55,8 +224,11 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <h4>Previous topic</h4>
-            <p class="topless"><a href="schema.html"
-                                  title="previous chapter">Schema (MySQL Instance)</a></p>
+            <p class="topless"><a href="database.html"
+                                  title="previous chapter">Database</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="column.html"
+                                  title="next chapter">Column</a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="../_sources/api/table.txt"
@@ -89,9 +261,12 @@
           <a href="../modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="schema.html" title="Schema (MySQL Instance)"
+          <a href="column.html" title="Column"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="database.html" title="Database"
              >previous</a> |</li>
-        <li><a href="../index.html">SchemaObject v0.5 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">SchemaObject v0.5.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

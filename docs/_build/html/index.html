@@ -5,13 +5,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SchemaObject v0.5 documentation &mdash; SchemaObject v0.5 documentation</title>
+    <title>SchemaObject v0.5.1 documentation &mdash; SchemaObject v0.5.1 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.5',
+        VERSION:     '0.5.1',
         COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -19,7 +19,7 @@
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="SchemaObject v0.5 documentation" href="" />
+    <link rel="top" title="SchemaObject v0.5.1 documentation" href="" />
     <link rel="next" title="Schema (MySQL Instance)" href="api/schema.html" /> 
   </head>
   <body>
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="api/schema.html" title="Schema (MySQL Instance)"
              accesskey="N">next</a> |</li>
-        <li><a href="">SchemaObject v0.5 documentation</a> &raquo;</li> 
+        <li><a href="">SchemaObject v0.5.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -44,44 +44,48 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="schemaobject-v0-5-documentation">
-<h1>SchemaObject v0.5 documentation<a class="headerlink" href="#schemaobject-v0-5-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>SchemaObject creates an object representation of a MySQL schema including its databases, tables, columns, indexes, and foreign keys. It allows you to process and iterate over a MySQL schema through python object properties and methods.</p>
-<p>You can generate the SQL syntax for creating, altering and dropping any part of the schema. As of v0.5, a separate process is needed to push any generated changes to your database instance/schema.</p>
+  <div class="section" id="schemaobject-v0-5-1-documentation">
+<h1>SchemaObject v0.5.1 documentation<a class="headerlink" href="#schemaobject-v0-5-1-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction-and-examples">
+<h2>Introduction and Examples<a class="headerlink" href="#introduction-and-examples" title="Permalink to this headline">¶</a></h2>
+<p>SchemaObject provides a simple, easy to use Python object interface to a MySQL database schema. You can effortlessly write tools to test, validate, sync, migrate, or manage your schema as well as generate the SQL necessary to make changes to it.</p>
+<p><strong>Verify all tables are InnoDB</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">schemaobject</span>
+<span class="n">schema</span>  <span class="o">=</span> <span class="n">schemaobject</span><span class="o">.</span><span class="n">SchemaObject</span><span class="p">(</span><span class="s">&#39;mysql://username:password@localhost:3306/mydb&#39;</span><span class="p">)</span>
+<span class="n">tables</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;mydb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span> <span class="c">#or schema.selected.tables</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="n">tables</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;engine&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s">&#39;InnoDB&#39;</span>
+</pre></div>
 </div>
-<div class="section" id="status-license">
-<h2>Status &amp; License<a class="headerlink" href="#status-license" title="Permalink to this headline">¶</a></h2>
-<p>SchemaObject is under active development and released under the <a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>. You can obtain a copy of the latest source code from the <a class="reference external" href="http://github.com/mmatuson/SchemaObject">Git repository</a>, or fork it on <a class="reference external" href="http://www.github.com">Github</a>.</p>
+<p><strong>Verify our MySQL instance is at least version 5.1</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">schemaobject</span>
+<span class="n">schema</span>  <span class="o">=</span> <span class="n">schemaobject</span><span class="o">.</span><span class="n">SchemaObject</span><span class="p">(</span><span class="s">&#39;mysql://username:password@localhost:3306/mydb&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">schema</span><span class="o">.</span><span class="n">version</span> <span class="o">&gt;=</span> <span class="s">&#39;5.1.0&#39;</span>
+</pre></div>
 </div>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="dependancies-and-requirements">
-<h3>Dependancies and Requirements<a class="headerlink" href="#dependancies-and-requirements" title="Permalink to this headline">¶</a></h3>
+<p><strong>Notes and Limitations</strong></p>
 <ul class="simple">
-<li>Python 2.5</li>
-<li>MySQLdb</li>
+<li>SchemaObject instances are read-only. Modifying the object or calling create(), modify(), alter(), or drop() will not change your schema.</li>
+<li>The MySQL User needs to have privileges to execute SELECT and SHOW statements, as well as access the INFORMATION_SCHEMA.</li>
+<li>All Databases, Tables, Columns, Indexes, and Foreign Keys are lazily loaded.</li>
+<li>SchemaObject does not load Events, Triggers, or Stored Procedures.</li>
 </ul>
 </div>
-<div class="section" id="installing-with-easy-install">
-<h3>Installing with easy_install<a class="headerlink" href="#installing-with-easy-install" title="Permalink to this headline">¶</a></h3>
-<p>Simply run the following command:</p>
-<div class="highlight-python"><pre>$ sudo easy_install schemaobject</pre>
+<div class="section" id="download-and-install">
+<h2>Download and Install<a class="headerlink" href="#download-and-install" title="Permalink to this headline">¶</a></h2>
+<p><strong>Prerequisites</strong></p>
+<ul class="simple">
+<li>SchemaObject has been tested against Python 2.4, 2.5, and 2.6.</li>
+<li>To use SchemaObject, you need to have <a class="reference external" href="http://www.mysql.com/">MySQL</a>, version 5.0 or higher and <a class="reference external" href="http://sourceforge.net/projects/mysql-python">MySQLdb</a>, version 1.2.1p2 or higher installed.</li>
+<li>To run the test suite, you need to install a copy of the <a class="reference external" href="http://dev.mysql.com/doc/sakila/en/sakila.html">Sakila Database</a>, version 0.8</li>
+</ul>
+<p><strong>Installing with easy_install</strong></p>
+<div class="highlight-python"><pre>sudo easy_install schemaobject</pre>
 </div>
-</div>
-<div class="section" id="installing-the-latest-development-version">
-<h3>Installing the latest development version<a class="headerlink" href="#installing-the-latest-development-version" title="Permalink to this headline">¶</a></h3>
-<p>Standard install:</p>
-<div class="highlight-python"><pre>$ git clone git://github.com/mmatuson/SchemaObject.git
-$ cd schemaobject
-$ sudo python setup.py install</pre>
-</div>
-<p>Development Mode:</p>
-<div class="highlight-python"><pre>$ git clone git://github.com/mmatuson/SchemaObject.git
-$ cd schemaobject
-$ sudo python setup.py develop</pre>
-</div>
+<p><strong>Installing the latest development version</strong></p>
+<div class="highlight-python"><pre>git clone git://github.com/mmatuson/SchemaObject.git
+cd schemaobject
+sudo python setup.py install</pre>
 </div>
 </div>
 <div class="section" id="documentation">
@@ -96,30 +100,16 @@ $ sudo python setup.py develop</pre>
 <li class="toctree-l1"><a class="reference external" href="api/option.html">Option</a></li>
 </ul>
 </div>
-<div class="section" id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<p>Verify all tables in our database are InnoDB:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">schemaobject</span>
-<span class="n">schema</span>  <span class="o">=</span> <span class="n">schemaobject</span><span class="o">.</span><span class="n">SchemaObject</span><span class="p">(</span><span class="s">&#39;mysql://username:password@localhost:3306/mydb&#39;</span><span class="p">)</span>
-<span class="n">tables</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">databases</span><span class="p">[</span><span class="s">&#39;mydb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tables</span> <span class="c">#or schema.selected.tables</span>
-<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
-    <span class="k">assert</span> <span class="n">tables</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;engine&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s">&#39;InnoDB&#39;</span>
-</pre></div>
+<div class="section" id="projects-using-schemaobject">
+<h2>Projects using SchemaObject<a class="headerlink" href="#projects-using-schemaobject" title="Permalink to this headline">¶</a></h2>
+<p>Schema Sync - a MySQL schema synchronization utility</p>
 </div>
-<p>Verify our MySQL instance is version 5.x+:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">schemaobject</span>
-<span class="n">schema</span>  <span class="o">=</span> <span class="n">schemaobject</span><span class="o">.</span><span class="n">SchemaObject</span><span class="p">(</span><span class="s">&#39;mysql://username:password@localhost:3306/mydb&#39;</span><span class="p">)</span>
-<span class="k">assert</span> <span class="nb">int</span><span class="p">(</span><span class="n">schema</span><span class="o">.</span><span class="n">version</span><span class="p">[:</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">5</span> <span class="c">#test against the major # of the version string</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="indices-and-tables">
-<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference external" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference external" href="modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference external" href="search.html"><em>Search Page</em></a></li>
-</ul>
+<div class="section" id="status-license">
+<h2>Status &amp; License<a class="headerlink" href="#status-license" title="Permalink to this headline">¶</a></h2>
+<p>SchemaObject is under active development and released under the <a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>.</p>
+<p>You can obtain a copy of the latest source code from the <a class="reference external" href="http://github.com/mmatuson/SchemaObject">Git repository</a>, or fork it on <a class="reference external" href="http://www.github.com">Github</a>.</p>
+<p>You can report bugs via the <a class="reference external" href="http://github.com/mmatuson/SchemaObject/issues">SchemaObject Issues page</a>.</p>
+<p>Comments, questions, and feature requests can be sent to code at matuson dot com</p>
 </div>
 </div>
 
@@ -131,20 +121,14 @@ $ sudo python setup.py develop</pre>
         <div class="sphinxsidebarwrapper">
             <h3><a href="">Table Of Contents</a></h3>
             <ul>
-<li><a class="reference external" href="">SchemaObject v0.5 documentation</a><ul>
-<li><a class="reference external" href="#introduction">Introduction</a></li>
-<li><a class="reference external" href="#status-license">Status &amp; License</a></li>
-<li><a class="reference external" href="#installation">Installation</a><ul>
-<li><a class="reference external" href="#dependancies-and-requirements">Dependancies and Requirements</a></li>
-<li><a class="reference external" href="#installing-with-easy-install">Installing with easy_install</a></li>
-<li><a class="reference external" href="#installing-the-latest-development-version">Installing the latest development version</a></li>
-</ul>
-</li>
+<li><a class="reference external" href="">SchemaObject v0.5.1 documentation</a><ul>
+<li><a class="reference external" href="#introduction-and-examples">Introduction and Examples</a></li>
+<li><a class="reference external" href="#download-and-install">Download and Install</a></li>
 <li><a class="reference external" href="#documentation">Documentation</a><ul>
 </ul>
 </li>
-<li><a class="reference external" href="#examples">Examples</a></li>
-<li><a class="reference external" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference external" href="#projects-using-schemaobject">Projects using SchemaObject</a></li>
+<li><a class="reference external" href="#status-license">Status &amp; License</a></li>
 </ul>
 </li>
 </ul>
@@ -186,7 +170,7 @@ $ sudo python setup.py develop</pre>
         <li class="right" >
           <a href="api/schema.html" title="Schema (MySQL Instance)"
              >next</a> |</li>
-        <li><a href="">SchemaObject v0.5 documentation</a> &raquo;</li> 
+        <li><a href="">SchemaObject v0.5.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

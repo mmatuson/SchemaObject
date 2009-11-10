@@ -28,7 +28,9 @@ class SchemaObject(object):
 
         self._databases = None
 
-        self.connection = DatabaseConnection(connection_url)
+        self.connection = DatabaseConnection()
+        self.connection.connect(connection_url)
+
         self.host = self.connection.host
         self.port = self.connection.port
         self.user = self.connection.user
@@ -61,6 +63,6 @@ class SchemaObject(object):
           ['sakila']
 
         """
-        if not self._databases:
+        if self._databases == None:
             self._databases = DatabaseSchemaBuilder(instance=self)
         return self._databases

@@ -1,8 +1,11 @@
+import re
 from schemaobject.collections import OrderedDict
 from schemaobject.column import ColumnSchemaBuilder
 from schemaobject.index import IndexSchemaBuilder
 from schemaobject.foreignkey import ForeignKeySchemaBuilder
 from schemaobject.option import SchemaOption
+
+REGEX_MULTI_SPACE = re.compile('\s\s+')
 
 
 def TableSchemaBuilder(database):
@@ -37,7 +40,11 @@ def TableSchemaBuilder(database):
             charset = None
 
         pos = table_info['TABLE_COLLATION'].find('_')
-        charset = table_info['TABLE_COLLATION'] if not pos else table_info['TABLE_COLLATION'][:pos]
+
+        if not pos:
+            charset = table_info['TABLE_COLLATION']
+        else:
+            charset = table_info['TABLE_COLLATION'][:pos]
 
         table = TableSchema(name=name, parent=database)
         table.options['engine'] = SchemaOption('ENGINE', table_info['ENGINE'])
@@ -115,7 +122,7 @@ class TableSchema(object):
           >>> schema.databases['sakila'].tables['rental'].columns.keys()
           ['rental_id', 'rental_date', 'inventory_id', 'customer_id', 'return_date', 'staff_id', 'last_update'
         """
-        if not self._columns:
+        if self._columns == None:
             self._columns = ColumnSchemaBuilder(table=self)
         return self._columns
 
@@ -129,7 +136,7 @@ class TableSchema(object):
           >>> schema.databases['sakila'].tables['rental'].indexes.keys()
           ['PRIMARY', 'rental_date', 'idx_fk_inventory_id', 'idx_fk_customer_id', 'idx_fk_staff_id']
         """
-        if not self._indexes:
+        if self._indexes == None:
             self._indexes = IndexSchemaBuilder(table=self)
         return self._indexes
 
@@ -143,7 +150,7 @@ class TableSchema(object):
           >>> schema.databases['sakila'].tables['rental'].foreign_keys.keys()
           ['fk_rental_customer', 'fk_rental_inventory', 'fk_rental_staff']
         """
-        if not self._foreign_keys:
+        if self._foreign_keys == None:
             self._foreign_keys = ForeignKeySchemaBuilder(table=self)
         return self._foreign_keys
 
@@ -160,7 +167,7 @@ class TableSchema(object):
         * CREATE_OPTIONS == ``options['create_options']``
         * COMMENT  == ``options['comment']``
         """
-        if not self._options:
+        if self._options == None:
             self._options = OrderedDict()
         return self._options
 
@@ -168,9 +175,9 @@ class TableSchema(object):
         """
         Generate the SQL to alter this table
           >>> schema.databases['sakila'].tables['rental'].alter()
-          'ALTER TABLE `sakila`.`rental`'
+          'ALTER TABLE `rental`'
         """
-        return "ALTER TABLE `%s`.`%s`" % (self.parent.name, self.name)
+        return "ALTER TABLE `%s`" % (self.name)
 
     def create(self):
         """
@@ -196,15 +203,17 @@ class TableSchema(object):
         """
         cursor = self.parent.parent.connection
         result = cursor.execute("SHOW CREATE TABLE `%s`.`%s`" % (self.parent.name, self.name))
-        return result[0]['Create Table'] + ';'
+        sql = result[0]['Create Table'] + ';'
+        sql = sql.replace('\n', '')
+        return REGEX_MULTI_SPACE.sub(' ', sql)
 
     def drop(self):
         """
         Generate the SQL to drop this table
           >>> schema.databases['sakila'].tables['rental'].drop()
-          'DROP TABLE `sakila`.`rental`;'
+          'DROP TABLE `rental`;'
         """
-        return "DROP TABLE `%s`.`%s`;" % (self.parent.name, self.name)
+        return "DROP TABLE `%s`;" % (self.name)
 
     def __eq__(self, other):
         if not isinstance(other, TableSchema):

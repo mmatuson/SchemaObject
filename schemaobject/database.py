@@ -5,12 +5,12 @@ from schemaobject.collections import OrderedDict
 
 def DatabaseSchemaBuilder(instance):
     """
-    Returns a dictionary loaded with all of the databases availale on 
+    Returns a dictionary loaded with all of the databases availale on
     the MySQL instance. ``instance`` must be an instance SchemaObject.
 
     .. note::
-      This function is automatically called for you and set to 
-      ``schema.databses``when you create an instance of SchemaObject
+      This function is automatically called for you and set to
+      ``schema.databases``when you create an instance of SchemaObject
 
     """
     conn = instance.connection
@@ -36,7 +36,7 @@ def DatabaseSchemaBuilder(instance):
         name = db_info['SCHEMA_NAME']
 
         db = DatabaseSchema(name=name, parent=instance)
-        db.options['charset'] = SchemaOption("CHARSET", db_info['DEFAULT_CHARACTER_SET_NAME'])
+        db.options['charset'] = SchemaOption("CHARACTER SET", db_info['DEFAULT_CHARACTER_SET_NAME'])
         db.options['collation'] = SchemaOption("COLLATE", db_info['DEFAULT_COLLATION_NAME'])
 
         d[name] = db
@@ -61,7 +61,7 @@ class DatabaseSchema(object):
         'sakila'
 
     .. note::
-        DatabaseSchema objects are automatically created for you 
+        DatabaseSchema objects are automatically created for you
         by DatabaseSchemaBuilder and loaded under ``schema.databases``
     """
 
@@ -78,7 +78,7 @@ class DatabaseSchema(object):
           >>> len(schema.databases['sakila'].tables)
           16
         """
-        if not self._tables:
+        if self._tables == None:
             self._tables = TableSchemaBuilder(database=self)
         return self._tables
 
@@ -90,7 +90,7 @@ class DatabaseSchema(object):
         * CHARACTER SET  == ``options['charset']``
         * COLLATE == ``options['collation']``
         """
-        if not self._options:
+        if self._options == None:
             self._options = OrderedDict()
         return self._options
 
@@ -114,9 +114,9 @@ class DatabaseSchema(object):
         """
         Generate the SQL to create this databse
           >>> schema.databases['sakila'].create()
-          'CREATE DATABASE `sakila` CHARACTER SET latin1 COLLATE latin1_swedish_ci;'
+          'CREATE DATABASE `sakila` CHARACTER SET=latin1 COLLATE=latin1_swedish_ci;'
         """
-        return "CREATE DATABASE `%s` CHARACTER SET %s COLLATE %s;" % (self.name, self.options['charset'].value, self.options['collation'].value)
+        return "CREATE DATABASE `%s` %s %s;" % (self.name, self.options['charset'].create(), self.options['collation'].create())
 
     def drop(self):
         """

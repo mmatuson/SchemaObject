@@ -1,52 +1,62 @@
-.. SchemaObject documentation master file, created by
-   sphinx-qschemaobjectuickstart on Wed Sep 16 09:45:22 2009.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+SchemaObject v0.5.1 documentation 
++++++++++++++++++++++++++++++++++
 
-SchemaObject v0.5 documentation 
-+++++++++++++++++++++++++++++++
+Introduction and Examples
+-------------------------
+SchemaObject provides a simple, easy to use Python object interface to a MySQL database schema. You can effortlessly write tools to test, validate, sync, migrate, or manage your schema as well as generate the SQL necessary to make changes to it. 
 
-Introduction
-============
-SchemaObject creates an object representation of a MySQL schema including its databases, tables, columns, indexes, and foreign keys. It allows you to process and iterate over a MySQL schema through python object properties and methods.
+**Verify all tables are InnoDB**
 
-You can generate the SQL syntax for creating, altering and dropping any part of the schema. As of v0.5, a separate process is needed to push any generated changes to your database instance/schema. 
+::
 
-Status & License
-================
-SchemaObject is under active development and released under the `Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0>`_. You can obtain a copy of the latest source code from the `Git repository <http://github.com/mmatuson/SchemaObject>`_, or fork it on `Github <http://www.github.com>`_.
+    import schemaobject
+    schema  = schemaobject.SchemaObject('mysql://username:password@localhost:3306/mydb')
+    tables = schema.databases['mydb'].tables #or schema.selected.tables
+    for t in tables:
+        assert tables[t].options['engine'].value == 'InnoDB'
 
-Installation
-=============
 
-Dependancies and Requirements
------------------------------
-* Python 2.5
-* MySQLdb
+**Verify our MySQL instance is at least version 5.1**
 
-Installing with easy_install
---------------------------------
-Simply run the following command::
+::
 
-    $ sudo easy_install schemaobject
+        import schemaobject
+        schema  = schemaobject.SchemaObject('mysql://username:password@localhost:3306/mydb')
+        assert schema.version >= '5.1.0'
+        
+        
+**Notes and Limitations**
 
-Installing the latest development version
-------------------------------------------
+* SchemaObject instances are read-only. Modifying the object or calling create(), modify(), alter(), or drop() will not change your schema. 
+* The MySQL User needs to have privileges to execute SELECT and SHOW statements, as well as access the INFORMATION_SCHEMA. 
+* All Databases, Tables, Columns, Indexes, and Foreign Keys are lazily loaded.
+* SchemaObject does not load Events, Triggers, or Stored Procedures.
 
-Standard install::
+Download and Install
+--------------------
 
-    $ git clone git://github.com/mmatuson/SchemaObject.git
-    $ cd schemaobject
-    $ sudo python setup.py install
+**Prerequisites**
 
-Development Mode::
+* SchemaObject has been tested against Python 2.4, 2.5, and 2.6.
+* To use SchemaObject, you need to have `MySQL <http://www.mysql.com/>`_, version 5.0 or higher and `MySQLdb <http://sourceforge.net/projects/mysql-python>`_, version 1.2.1p2 or higher installed. 
+* To run the test suite, you need to install a copy of the `Sakila Database <http://dev.mysql.com/doc/sakila/en/sakila.html>`_, version 0.8
 
-    $ git clone git://github.com/mmatuson/SchemaObject.git
-    $ cd schemaobject
-    $ sudo python setup.py develop
+
+**Installing with easy_install**
+::
+
+    sudo easy_install schemaobject
+
+**Installing the latest development version**
+::
+
+    git clone git://github.com/mmatuson/SchemaObject.git
+    cd schemaobject
+    sudo python setup.py install
+
 
 Documentation
-=============
+-------------
 .. toctree::
     :maxdepth: 1
 
@@ -57,29 +67,20 @@ Documentation
     api/index.rst
     api/foreignkey.rst
     api/option.rst
-    
+  
+ 
+Projects using SchemaObject
+---------------------------
+Schema Sync - a MySQL schema synchronization utility
 
-    
-Examples
-==============
-Verify all tables in our database are InnoDB::
-    
-    import schemaobject
-    schema  = schemaobject.SchemaObject('mysql://username:password@localhost:3306/mydb')
-    tables = schema.databases['mydb'].tables #or schema.selected.tables
-    for t in tables:
-        assert tables[t].options['engine'].value == 'InnoDB'
-        
-Verify our MySQL instance is version 5.x+::
+      
+Status & License
+-----------------
+SchemaObject is under active development and released under the `Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0>`_. 
 
-    import schemaobject
-    schema  = schemaobject.SchemaObject('mysql://username:password@localhost:3306/mydb')
-    assert int(schema.version[:1]) >= 5 #test against the major # of the version string
-    
-    
-Indices and tables
-==================
+You can obtain a copy of the latest source code from the `Git repository <http://github.com/mmatuson/SchemaObject>`_, or fork it on `Github <http://www.github.com>`_.
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+You can report bugs via the `SchemaObject Issues page <http://github.com/mmatuson/SchemaObject/issues>`_.
+
+Comments, questions, and feature requests can be sent to code at matuson dot com
+

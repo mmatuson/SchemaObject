@@ -20,6 +20,9 @@ def parse_database_url(url):
     result = {}
 
     if matches:
+        if matches.group('protocol'):
+            result['protocol'] = matches.group('protocol')
+
         if matches.group('username'):
             result['user'] = matches.group('username')
 
@@ -43,19 +46,12 @@ def parse_database_url(url):
 class DatabaseConnection(object):
     """A lightweight wrapper around MySQLdb DB-API"""
 
-    def __init__(self, connection_url):
-
-        if not "mysql://" in connection_url.lower():
-            raise TypeError("Connection protocol must be MySQL!")
-
-        self._kwargs = parse_database_url(connection_url)
+    def __init__(self):
         self._db = None
-
-        self.db = self._kwargs.get('db', None)
-        self.host = self._kwargs.get('host', 'localhost')
-        self.port = self._kwargs.get('port', 3306)
-        self.user = self._kwargs.get('user', None)
-        self.connect()
+        self.db = None
+        self.host = None
+        self.port = None
+        self.user = None
 
     @property
     def version(self):
@@ -75,9 +71,21 @@ class DatabaseConnection(object):
         cursor.close()
         return  [dict(zip(fields, row)) for row in rows]
 
-    def connect(self):
-        """Connect to the databse"""
-        self._db = MySQLdb.connect(**self._kwargs)
+    def connect(self, connection_url):
+        """Connect to the database"""
+
+        kwargs = parse_database_url(connection_url)
+        if not (kwargs and kwargs['protocol'] == 'mysql'):
+            raise TypeError("Connection protocol must be MySQL!")
+
+        self.db = kwargs.get('db', None)
+        self.host = kwargs.get('host', 'localhost')
+        self.port = kwargs.get('port', 3306)
+        self.user = kwargs.get('user', None)
+
+        # can't pass protocol to MySQLdb
+        del kwargs['protocol']
+        self._db = MySQLdb.connect(**kwargs)
 
     def close(self):
         """Close the database connection."""

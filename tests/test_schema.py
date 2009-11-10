@@ -2,12 +2,11 @@
 
 import unittest
 import schemaobject
-from tests.config import DATABASE_URL
 
 class TestSchema(unittest.TestCase):
   def setUp(self):
-    self.db = schemaobject.SchemaObject(DATABASE_URL + 'sakila')
-    self.db2 = schemaobject.SchemaObject(DATABASE_URL)
+    self.db = schemaobject.SchemaObject(self.database_url + 'sakila')
+    self.db2 = schemaobject.SchemaObject(self.database_url)
 
   def test_database_version(self):
     assert self.db.version == "5.1.30"
@@ -26,13 +25,12 @@ class TestSchema(unittest.TestCase):
 
   def test_no_selected_databse(self):
     assert self.db2.selected == None
-    
+
   def test_database_count_with_selected_databse(self):
     assert len(self.db.databases) == 1
 
-  def test_database_count_without_selected_databse(self):
-    print len(self.db2.databases)
-    assert len(self.db2.databases) == 14
-    
+
 if __name__ == "__main__":
+    from test_all import get_database_url
+    TestSchema.database_url = get_database_url()
     unittest.main()

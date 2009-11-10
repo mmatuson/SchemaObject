@@ -36,11 +36,16 @@ def ColumnSchemaBuilder(table):
         column.type = col['COLUMN_TYPE'].upper() #force uppercase column types
         column.charset = col['CHARACTER_SET_NAME']
         column.collation = col['COLLATION_NAME']
-        column.null = True if col['IS_NULLABLE'] == "YES" else False
+
         column.key = col['COLUMN_KEY']
         column.default = col['COLUMN_DEFAULT']
         column.extra = col['EXTRA']
         column.comment = col['COLUMN_COMMENT']
+
+        if col['IS_NULLABLE'] == "YES":
+            column.null = True
+        else:
+            column.null = False
 
         cols[field] = column
 
@@ -107,12 +112,14 @@ class ColumnSchema(object):
         self.extra = None
         self.comment = None
 
-    def define(self, after=None):
+    def define(self, after=None, with_comment=False):
         """
         Generate the SQL for this column definition.
 
         ``after`` is the name(string) of the column this should appear after.
-        If ``after`` is None, ``FIRST`` is used.::
+        If ``after`` is None, ``FIRST`` is used.
+
+        ``with_comment`` boolean, add column comment to sql statement
 
           >>> schema.databases['sakila'].tables['rental'].columns['last_update'].define(after="staff_id")
           '`last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP AFTER `staff_id`'
@@ -138,6 +145,9 @@ class ColumnSchema(object):
         if self.collation and self.charset:
             sql.append("CHARACTER SET %s COLLATE %s" % (self.charset, self.collation))
 
+        if with_comment and self.comment:
+            sql.append("COMMENT '%s'" % self.comment)
+
         if after:
             sql.append("AFTER `%s`" % (after))
         else:
@@ -145,26 +155,30 @@ class ColumnSchema(object):
 
         return ' '.join(sql)
 
-    def create(self, after=None):
+    def create(self, *args, **kwargs):
         """
         Generate the SQL to create (ADD) this column.
 
         ``after`` is the name(string) of the column this should appear after.
-        If ``after`` is None, ``FIRST`` is used.::
+        If ``after`` is None, ``FIRST`` is used.
+
+        ``with_comment`` boolean, add column comment to sql statement
 
           >>> schema.databases['sakila'].tables['rental'].columns['last_update'].create(after="staff_id")
           'ADD COLUMN `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP AFTER `staff_id`'
           >>> schema.databases['sakila'].tables['rental'].columns['rental_id'].create()
           'ADD COLUMN `rental_id` INT(11) NOT NULL auto_increment FIRST'
         """
-        return "ADD COLUMN %s" % self.define(after=after)
+        return "ADD COLUMN %s" % self.define(*args, **kwargs)
 
-    def modify(self, after=None):
+    def modify(self, *args, **kwargs):
         """
         Generate the SQL to modify this column.
 
         ``after`` is the name(string) of the column this should appear after.
-        If ``after`` is None, ``FIRST`` is used.::
+        If ``after`` is None, ``FIRST`` is used.x
+
+        ``with_comment`` boolean, add column comment to sql statement
 
           >>> schema.databases['sakila'].tables['rental'].columns['customer_id'].define(after="inventory_id")
           '`customer_id` SMALLINT(5) UNSIGNED NOT NULL AFTER `inventory_id`'
@@ -172,7 +186,7 @@ class ColumnSchema(object):
           >>> schema.databases['sakila'].tables['rental'].columns['customer_id'].modify(after="inventory_id")
           'MODIFY COLUMN `customer_id` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 123 AFTER `inventory_id`'
         """
-        return "MODIFY COLUMN %s" % self.define(after=after)
+        return "MODIFY COLUMN %s" % self.define(*args, **kwargs)
 
     def drop(self):
         """

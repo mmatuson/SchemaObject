@@ -9,9 +9,9 @@ setup(
     
     packages=['schemaobject'],
     
-    version='0.5',
+    version='0.5.1',
     
-    description="SchemaObject creates an object representation of a MySQL database schema.",
+    description="Iterate over a MySQL database schema as a Python object.",
     
     author="Mitch Matuson",
     
@@ -31,7 +31,6 @@ setup(
       ],
       
       long_description = """\
-      SchemaObject creates an object representation of a MySQL schema including its databases, tables, columns, indexes, and foreign keys. 
-      It allows you to process and iterate over a MySQL schema through python object properties and methods.
+      SchemaObject provides a simple, easy to use Python object interface to a MySQL database schema. You can effortlessly write tools to test, validate, sync, migrate, or manage your schema as well as generate the SQL necessary to make changes to it. 
       """
 )
