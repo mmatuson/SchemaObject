@@ -134,7 +134,7 @@ class ColumnSchema(object):
         else:
             sql.append("NULL")
 
-        if self.default and (isinstance(self.default, basestring) and not 'CURRENT_TIMESTAMP'):
+        if (self.default and isinstance(self.default, basestring) and self.default != 'CURRENT_TIMESTAMP'):
             sql.append("DEFAULT '%s'" % self.default)
         elif self.default:
             sql.append("DEFAULT %s" % self.default)

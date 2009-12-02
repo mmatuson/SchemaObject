@@ -62,10 +62,20 @@ class TestColumnSchema(unittest.TestCase):
         self.assertEqual("`email` VARCHAR(50) NULL CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `last_name`",
                         self.db.tables['customer'].columns['email'].define(after='last_name'))
 
-    def tes_column_default(self):
-        self.assertEqual("`active` TINYINT(1) NOT NULL DEFAULT 1 CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `address_id`",
-                        self.db.tables['customer'].columns['active'].define(after='address_id'))
+    def test_column_default_string(self):
+        self.db.tables['rental'].columns['rental_date'].default = '0000-00-00 00:00:00'
+        self.assertEqual("`rental_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `rental_id`",
+                        self.db.tables['rental'].columns['rental_date'].define(after='rental_id'))
+                                            
+    def test_column_default_number(self):
+        self.db.tables['rental'].columns['customer_id'].default = 123
+        self.assertEqual("`customer_id` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 123 AFTER `inventory_id`",
+                        self.db.tables['rental'].columns['customer_id'].define(after='inventory_id'))
 
+    def test_column_default_reserved(self):
+        self.assertEqual("`last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP AFTER `staff_id`",
+                        self.db.tables['rental'].columns['last_update'].define(after='staff_id'))
+                        
     def test_column_no_default(self):
         self.assertEqual("`email` VARCHAR(50) NULL CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `last_name`",
                         self.db.tables['customer'].columns['email'].define(after='last_name'))
