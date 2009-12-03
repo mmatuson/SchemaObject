@@ -1,4 +1,4 @@
-SchemaObject v0.5.1 documentation 
+SchemaObject v0.5.2 documentation 
 +++++++++++++++++++++++++++++++++
 
 Introduction and Examples
@@ -31,6 +31,11 @@ SchemaObject provides a simple, easy to use Python object interface to a MySQL d
 * The MySQL User needs to have privileges to execute SELECT and SHOW statements, as well as access the INFORMATION_SCHEMA. 
 * All Databases, Tables, Columns, Indexes, and Foreign Keys are lazily loaded.
 * SchemaObject does not load Events, Triggers, or Stored Procedures.
+
+What's New in This Version
+--------------------------
+See the history of  :doc:`CHANGES </changes>`
+
 
 Download and Install
 --------------------
@@ -71,7 +76,7 @@ Documentation
  
 Projects using SchemaObject
 ---------------------------
-Schema Sync - a MySQL schema synchronization utility
+`Schema Sync <http://www.schemasync.org>`_ - a MySQL schema versioning and migration utility
 
       
 Status & License

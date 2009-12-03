@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Changes to SchemaObject &mdash; SchemaObject v0.5.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.5.2',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="SchemaObject v0.5.2 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li><a href="index.html">SchemaObject v0.5.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="changes-to-schemaobject">
+<h1>Changes to SchemaObject<a class="headerlink" href="#changes-to-schemaobject" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>== 0.5.2 / 2009-12-02</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>Column DEFAULT fixes</dt>
+<dd><ul class="first last simple">
+<li>strings are now quoted (except CURRENT_TIMESTAMP),</li>
+<li>non-None values handled (&#8216;&#8217;, 0)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">CHARACTER SET AND COLLATE omitted from column definition if same as parent Table.</p>
+</li>
+<li><p class="first">Fixed Column definition syntax (ordering of attributes)</p>
+</li>
+</ul>
+</dd>
+<dt>== 0.5.1 / 2009-11-10</dt>
+<dd><ul class="first last">
+<li><p class="first">bug fixes</p>
+</li>
+<li><p class="first">updated test configuration, added more tests</p>
+</li>
+<li><p class="first">added ability to retrieve comments on columns</p>
+</li>
+<li><dl class="first docutils">
+<dt>updated collections.orderedDict</dt>
+<dd><ul class="first last simple">
+<li>added support for index(), insert() and __delitem__()</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>changed output of database options</dt>
+<dd><ul class="first last simple">
+<li>CHARSET is now CHARACTER SET</li>
+<li>&lt;key&gt; &lt;value&gt; is now &lt;key&gt;=&lt;value&gt;</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">newlines and multiple spaces removed from table.create() string</p>
+</li>
+<li><p class="first">Changed DatabaseConnection to explicitly require a call to connect()</p>
+</li>
+<li><p class="first">backported to work with python 2.4</p>
+</li>
+<li><p class="first">schema name dropped from table.alter() and table.drop() to be consistent with table.create()</p>
+</li>
+</ul>
+</dd>
+<dt>== 0.5.0 / 2009-09-17</dt>
+<dd><ul class="first last simple">
+<li>Initial public release</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/changes.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">SchemaObject v0.5.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Mitch Matuson.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>
