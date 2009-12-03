@@ -129,21 +129,26 @@ class ColumnSchema(object):
         sql = []
         sql.append("`%s` %s" % (self.field, self.type))
 
+        if (self.collation and
+            self.charset and
+            (self.parent.options['charset'].value != self.charset or
+             self.parent.options['collation'].value != self.collation)):
+            sql.append("CHARACTER SET %s COLLATE %s" % (self.charset, self.collation))
+
         if not self.null:
             sql.append("NOT NULL")
         else:
             sql.append("NULL")
 
-        if (self.default and isinstance(self.default, basestring) and self.default != 'CURRENT_TIMESTAMP'):
+        if (self.default != None and
+            isinstance(self.default, basestring) and
+            self.default != 'CURRENT_TIMESTAMP'):
             sql.append("DEFAULT '%s'" % self.default)
-        elif self.default:
+        elif self.default != None:
             sql.append("DEFAULT %s" % self.default)
 
         if self.extra:
             sql.append(self.extra)
-
-        if self.collation and self.charset:
-            sql.append("CHARACTER SET %s COLLATE %s" % (self.charset, self.collation))
 
         if with_comment and self.comment:
             sql.append("COMMENT '%s'" % self.comment)

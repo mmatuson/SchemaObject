@@ -54,30 +54,39 @@ class TestColumnSchema(unittest.TestCase):
                             self.db.tables['customer'].columns['last_name'])
 
     def test_column_null(self):
-        self.assertEqual("`email` VARCHAR(50) NULL CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `last_name`",
+        self.assertEqual("`email` VARCHAR(50) NULL AFTER `last_name`",
                         self.db.tables['customer'].columns['email'].define(after='last_name'))
 
     def test_column_not_null(self):
         self.db.tables['customer'].columns['email'].null = True
-        self.assertEqual("`email` VARCHAR(50) NULL CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `last_name`",
+        self.assertEqual("`email` VARCHAR(50) NULL AFTER `last_name`",
                         self.db.tables['customer'].columns['email'].define(after='last_name'))
 
     def test_column_default_string(self):
         self.db.tables['rental'].columns['rental_date'].default = '0000-00-00 00:00:00'
         self.assertEqual("`rental_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `rental_id`",
                         self.db.tables['rental'].columns['rental_date'].define(after='rental_id'))
-                                            
+
+        self.db.tables['customer'].columns['email'].null = False
+        self.db.tables['customer'].columns['email'].default = ''
+        self.assertEqual("`email` VARCHAR(50) NOT NULL DEFAULT '' AFTER `last_name`",
+                        self.db.tables['customer'].columns['email'].define(after='last_name'))
+
     def test_column_default_number(self):
         self.db.tables['rental'].columns['customer_id'].default = 123
         self.assertEqual("`customer_id` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 123 AFTER `inventory_id`",
                         self.db.tables['rental'].columns['customer_id'].define(after='inventory_id'))
 
+        self.db.tables['rental'].columns['customer_id'].default = 0
+        self.assertEqual("`customer_id` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 0 AFTER `inventory_id`",
+                        self.db.tables['rental'].columns['customer_id'].define(after='inventory_id'))
+
     def test_column_default_reserved(self):
         self.assertEqual("`last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP AFTER `staff_id`",
                         self.db.tables['rental'].columns['last_update'].define(after='staff_id'))
-                        
+
     def test_column_no_default(self):
-        self.assertEqual("`email` VARCHAR(50) NULL CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `last_name`",
+        self.assertEqual("`email` VARCHAR(50) NULL AFTER `last_name`",
                         self.db.tables['customer'].columns['email'].define(after='last_name'))
 
     def test_column_extra(self):
@@ -85,48 +94,82 @@ class TestColumnSchema(unittest.TestCase):
                     self.db.tables['customer'].columns['customer_id'].define())
 
     def test_column_no_extra(self):
-        self.assertEqual("`email` VARCHAR(50) NULL CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `last_name`",
+        self.assertEqual("`email` VARCHAR(50) NULL AFTER `last_name`",
                          self.db.tables['customer'].columns['email'].define(after='last_name'))
 
     def test_column_comment(self):
         self.db.tables['customer'].columns['email'].comment = "email address field"
-        self.assertEqual("`email` VARCHAR(50) NULL CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT 'email address field' AFTER `last_name`",
+        self.assertEqual("`email` VARCHAR(50) NULL COMMENT 'email address field' AFTER `last_name`",
                          self.db.tables['customer'].columns['email'].define(after='last_name', with_comment=True))
 
     def test_column_no_comment(self):
         self.db.tables['customer'].columns['email'].comment = "email address field"
-        self.assertEqual("`email` VARCHAR(50) NULL CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `last_name`",
+        self.assertEqual("`email` VARCHAR(50) NULL AFTER `last_name`",
                          self.db.tables['customer'].columns['email'].define(after='last_name', with_comment=False))
 
-    def test_column_no_collate(self):
+    def test_column_no_charset_collate(self):
         self.assertEqual("`customer_id` SMALLINT(5) UNSIGNED NOT NULL auto_increment FIRST",
                          self.db.tables['customer'].columns['customer_id'].define())
 
+    def test_column_charset_collate_same_as_parent(self):
+        self.assertEqual("`first_name` VARCHAR(45) NOT NULL AFTER `store_id`",
+                         self.db.tables['customer'].columns['first_name'].define(after='store_id'))
+
+    def test_column_charset_collate_diff_from_parent(self):
+        self.db.tables['customer'].columns['first_name'].charset = 'latin1'
+        self.db.tables['customer'].columns['first_name'].collation = 'latin1_general_ci'
+
+        self.assertEqual("`first_name` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL AFTER `store_id`",
+                          self.db.tables['customer'].columns['first_name'].define(after='store_id'))
+
+    def test_parent_charset_collate_diff_from_column(self):
+        self.db.tables['customer'].options['charset'].value = 'latin1'
+        self.db.tables['customer'].options['collation'].value = 'latin1_general_ci'
+
+        self.assertEqual("`first_name` VARCHAR(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `store_id`",
+                         self.db.tables['customer'].columns['first_name'].define(after='store_id'))
+
     def test_column_after(self):
-        self.assertEqual("`last_name` VARCHAR(45) NOT NULL CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `first_name`",
+        self.assertEqual("`last_name` VARCHAR(45) NOT NULL AFTER `first_name`",
                          self.db.tables['customer'].columns['last_name'].define(after='first_name'))
 
     def test_column_first(self):
-        self.assertEqual("`last_name` VARCHAR(45) NOT NULL CHARACTER SET utf8 COLLATE utf8_general_ci FIRST",
+        self.assertEqual("`last_name` VARCHAR(45) NOT NULL FIRST",
                          self.db.tables['customer'].columns['last_name'].define(after=None))
 
+    def test_column_definition_syntax(self):
+        self.db.tables['customer'].columns['first_name'].default = "bob"
+        self.db.tables['customer'].columns['first_name'].comment = "first name"
+        self.db.tables['customer'].columns['first_name'].charset = 'latin1'
+        self.db.tables['customer'].columns['first_name'].collation = 'latin1_general_ci'
+        self.db.tables['customer'].columns['customer_id'].default = 0
+
+        self.assertEqual("`first_name` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL DEFAULT 'bob' COMMENT 'first name' AFTER `store_id`",
+                         self.db.tables['customer'].columns['first_name'].define(after='store_id', with_comment=True))
+
+        self.assertEqual("`last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP AFTER `staff_id`",
+                         self.db.tables['rental'].columns['last_update'].define(after='staff_id'))
+
+        self.assertEqual("`customer_id` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 0 auto_increment FIRST",
+                         self.db.tables['customer'].columns['customer_id'].define())
+
     def test_create_column(self):
-        self.assertEqual("ADD COLUMN `last_name` VARCHAR(45) NOT NULL CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `first_name`",
+        self.assertEqual("ADD COLUMN `last_name` VARCHAR(45) NOT NULL AFTER `first_name`",
                          self.db.tables['customer'].columns['last_name'].create(after='first_name'))
 
     def test_create_column_with_comment(self):
         self.db.tables['customer'].columns['last_name'].comment = "hello"
-        self.assertEqual("ADD COLUMN `last_name` VARCHAR(45) NOT NULL CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT 'hello' AFTER `first_name`",
+        self.assertEqual("ADD COLUMN `last_name` VARCHAR(45) NOT NULL COMMENT 'hello' AFTER `first_name`",
                       self.db.tables['customer'].columns['last_name'].create(after='first_name', with_comment=True))
         self.db.tables['customer'].columns['last_name'] = ''
 
     def test_modify_column(self):
-        self.assertEqual("MODIFY COLUMN `last_name` VARCHAR(45) NOT NULL CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `first_name`",
+        self.assertEqual("MODIFY COLUMN `last_name` VARCHAR(45) NOT NULL AFTER `first_name`",
                          self.db.tables['customer'].columns['last_name'].modify(after='first_name'))
 
     def test_modify_column_with_comment(self):
         self.db.tables['customer'].columns['last_name'].comment = "hello"
-        self.assertEqual("MODIFY COLUMN `last_name` VARCHAR(45) NOT NULL CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT 'hello' AFTER `first_name`",
+        self.assertEqual("MODIFY COLUMN `last_name` VARCHAR(45) NOT NULL COMMENT 'hello' AFTER `first_name`",
                       self.db.tables['customer'].columns['last_name'].modify(after='first_name', with_comment=True))
         self.db.tables['customer'].columns['last_name'] = ''
 

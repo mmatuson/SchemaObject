@@ -10,7 +10,7 @@ def DatabaseSchemaBuilder(instance):
 
     .. note::
       This function is automatically called for you and set to
-      ``schema.databases``when you create an instance of SchemaObject
+      ``schema.databases`` when you create an instance of SchemaObject
 
     """
     conn = instance.connection
