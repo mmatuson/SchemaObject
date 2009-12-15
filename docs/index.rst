@@ -36,6 +36,7 @@ What's New in This Version
 --------------------------
 See the history of  :doc:`CHANGES </changes>`
 
+.. _installing:
 
 Download and Install
 --------------------
@@ -46,7 +47,14 @@ Download and Install
 * To use SchemaObject, you need to have `MySQL <http://www.mysql.com/>`_, version 5.0 or higher and `MySQLdb <http://sourceforge.net/projects/mysql-python>`_, version 1.2.1p2 or higher installed. 
 * To run the test suite, you need to install a copy of the `Sakila Database <http://dev.mysql.com/doc/sakila/en/sakila.html>`_, version 0.8
 
+**Standard Installation**
 
+Download `SchemaObject-0.5.2 <http://www.matuson.com/code/schemaobject/downloads/SchemaObject-0.5.2.tar.gz>`_
+::
+    tar xvzf SchemaObject-0.5.2.tar.gz
+    cd SchemaObject-0.5.2
+    sudo python setup.py install
+    
 **Installing with easy_install**
 ::
 
@@ -59,7 +67,8 @@ Download and Install
     cd schemaobject
     sudo python setup.py install
 
-
+To upgrade to a new version of SchemaObject, see  :doc:`Upgrading </upgrading>`
+    
 Documentation
 -------------
 .. toctree::
