@@ -27,13 +27,12 @@ def ColumnSchemaBuilder(table):
         return cols
 
     for col in columns:
-
         field = col['COLUMN_NAME']
         column = ColumnSchema(name=field, parent=table)
 
         column.ordinal_position = col['ORDINAL_POSITION']
         column.field = col['COLUMN_NAME']
-        column.type = col['COLUMN_TYPE'].upper() #force uppercase column types
+        column.type = col['COLUMN_TYPE']
         column.charset = col['CHARACTER_SET_NAME']
         column.collation = col['COLLATION_NAME']
 

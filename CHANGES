@@ -1,3 +1,7 @@
+== 0.5.3
+    * Column types are no longer forced uppercase
+        - Fixes ENUM, SET bug where data values were incorrectly uppercased
+
 == 0.5.2 / 2009-12-02
     * Column DEFAULT fixes
         - strings are now quoted (except CURRENT_TIMESTAMP),
