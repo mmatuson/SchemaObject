@@ -1,5 +1,6 @@
 == 0.5.4
     * Sub-parts of indices are now correctly added
+    * Fixes error with foreign keys against unique or primary key columns
     
 == 0.5.3 / 2010-04-19
     * Column types are no longer forced uppercase

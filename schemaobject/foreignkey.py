@@ -31,6 +31,7 @@ def ForeignKeySchemaBuilder(table):
             AND T.CONSTRAINT_TYPE = 'FOREIGN KEY'
             AND K.CONSTRAINT_SCHEMA='%s'
             AND K.TABLE_NAME='%s'
+            AND K.REFERENCED_TABLE_NAME is not null
             """
     constraints = conn.execute(sql % (table.parent.name, table.name))
 
@@ -59,13 +60,16 @@ def ForeignKeySchemaBuilder(table):
 
             fkeys[n] = FKItem
 
+        # POSITION_IN_UNIQUE_CONSTRAINT may be None
+        pos = fk['POSITION_IN_UNIQUE_CONSTRAINT'] or 0
+
         #columns for this fk
         if fk['COLUMN_NAME'] not in fkeys[n].columns:
-            fkeys[n].columns.insert(fk['POSITION_IN_UNIQUE_CONSTRAINT'], fk['COLUMN_NAME'])
+            fkeys[n].columns.insert(pos, fk['COLUMN_NAME'])
 
         #referenced columns for this fk
         if fk['REFERENCED_COLUMN_NAME'] not in fkeys[n].referenced_columns:
-            fkeys[n].referenced_columns.insert(fk['POSITION_IN_UNIQUE_CONSTRAINT'], fk['REFERENCED_COLUMN_NAME'])
+            fkeys[n].referenced_columns.insert(pos, fk['REFERENCED_COLUMN_NAME'])
 
     return fkeys
 
