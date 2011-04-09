@@ -116,9 +116,14 @@ class IndexSchema(object):
           >>> schemaobjects.index.IndexSchema.format_sub_part('column', 5)
           '`column`(5)'
         """
-        if isinstance(length, int) and length > 0:
+        try:
+            if not length:
+                raise ValueError
+
+            length = int(length)
             return "`%s`(%d)" % (field, length)
-        else:
+
+        except ValueError:
             return "`%s`" % (field)
 
     def create(self):
