@@ -85,6 +85,7 @@ class DatabaseConnection(object):
 
         # can't pass protocol to MySQLdb
         del kwargs['protocol']
+        kwargs['charset'] = 'utf8'
         self._db = MySQLdb.connect(**kwargs)
 
     def close(self):
