@@ -10,7 +10,7 @@ class SchemaObject(object):
 
     ``connection_url`` - the database url as per `RFC1738 <http://www.ietf.org/rfc/rfc1738.txt>`_
 
-      >>> schema  = schemaobject.SchemaObject('mysql://username:password@localhost:3306/sakila')
+      >>> schema  = schemaobject.SchemaObject('mysql://username:password@localhost:3306/sakila', 'utf8')
       >>> schema.host
       'localhost'
       >>> schema.port
@@ -24,12 +24,12 @@ class SchemaObject(object):
 
     """
 
-    def __init__(self, connection_url):
+    def __init__(self, connection_url, charset):
 
         self._databases = None
 
         self.connection = DatabaseConnection()
-        self.connection.connect(connection_url)
+        self.connection.connect(connection_url, charset)
 
         self.host = self.connection.host
         self.port = self.connection.port
