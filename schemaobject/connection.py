@@ -1,4 +1,4 @@
-import MySQLdb
+import PyMySQL
 import re
 
 REGEX_RFC1738 = re.compile(r'''
@@ -87,7 +87,7 @@ class DatabaseConnection(object):
         del kwargs['protocol']
         # insert charset option
         kwargs['charset'] = charset
-        self._db = MySQLdb.connect(**kwargs)
+        self._db = PyMySQL.connect(**kwargs)
 
     def close(self):
         """Close the database connection."""
@@ -98,4 +98,4 @@ class DatabaseConnection(object):
         self.close()
 
 # Alias MySQL exception
-DatabaseError = MySQLdb.Error
+DatabaseError = PyMySQL.Error
