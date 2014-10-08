@@ -10,10 +10,10 @@ class TestForeignKeySchema(unittest.TestCase):
         self.fk = self.schema.selected.tables['rental'].foreign_keys
 
     def test_FK_exists(self):
-        self.assertTrue("fk_rental_customer" in self.fk.keys())
+        self.assertTrue("fk_rental_customer" in list(self.fk.keys()))
 
     def test_FK_not_exists(self):
-        self.assertFalse("fk_foobar" in self.fk.keys())
+        self.assertFalse("fk_foobar" in list(self.fk.keys()))
 
     def test_FK_name(self):
         self.assertEqual("fk_rental_customer", self.fk['fk_rental_customer'].name)
@@ -121,6 +121,6 @@ class TestForeignKeySchema(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    from test_all import get_database_url
+    from .test_all import get_database_url
     TestForeignKeySchema.database_url = get_database_url()
     unittest.main()

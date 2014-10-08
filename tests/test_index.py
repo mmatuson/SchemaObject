@@ -99,6 +99,6 @@ class TestIndexSchema(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    from test_all import get_database_url
+    from .test_all import get_database_url
     TestIndexSchema.database_url = get_database_url()
     unittest.main()

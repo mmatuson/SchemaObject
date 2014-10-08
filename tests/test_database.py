@@ -37,6 +37,6 @@ class TestDatabaseSchema(unittest.TestCase):
         self.assertNotEqual(self.db, None)
 
 if __name__ == "__main__":
-    from test_all import get_database_url
+    from .test_all import get_database_url
     TestDatabaseSchema.database_url = get_database_url()
     unittest.main()

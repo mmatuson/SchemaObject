@@ -11,7 +11,7 @@ class TestColumnSchema(unittest.TestCase):
         self.assertEqual(9, len(self.db.tables['customer'].columns))
 
     def test_columns(self):
-        self.assertEqual(self.db.tables['customer'].columns.keys(),
+        self.assertEqual(list(self.db.tables['customer'].columns.keys()),
                         ['customer_id', 'store_id', 'first_name', 'last_name',
                          'email', 'address_id', 'active', 'create_date', 'last_update'])
 
@@ -186,6 +186,6 @@ class TestColumnSchema(unittest.TestCase):
                          self.db.tables['customer'].columns['last_name'].drop())
 
 if __name__ == "__main__":
-    from test_all import get_database_url
+    from .test_all import get_database_url
     TestColumnSchema.database_url = get_database_url()
     unittest.main()
