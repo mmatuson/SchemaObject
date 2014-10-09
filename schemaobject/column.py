@@ -153,7 +153,7 @@ class ColumnSchema(object):
             sql.append("COMMENT '%s'" % self.comment)
 
         if after:
-            sql.append("AFTER `%s`" % (after))
+            sql.append("AFTER `%s`" % after)
         else:
             sql.append("FIRST")
 

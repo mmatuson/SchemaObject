@@ -38,7 +38,7 @@ def ForeignKeySchemaBuilder(table):
     if not constraints:
         return fkeys
 
-    table_def = conn.execute("SHOW CREATE TABLE `%s`.`%s`" % (table.parent.name, table.name))[0]['Create Table']
+    table_def = conn.execute("SHOW CREATE TABLE `%s`.`%s`" % (table.parent.name, table.name))[0]["Create Table"]
 
     for fk in constraints:
         n = fk['CONSTRAINT_NAME']

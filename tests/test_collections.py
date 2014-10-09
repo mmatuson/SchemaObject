@@ -37,12 +37,7 @@ class TestOrderedDict(unittest.TestCase):
 
     def test_index(self):
         self.assertEqual(1, self.test.index("location"))
-        try:
-            self.test.index("unknown_key")
-        except ValueError:
-            pass
-        else:
-            self.assertFalse()
+        self.assertRaises(ValueError, self.test.index, ("unknown_key",))
 
     def test_insert(self):
         self.assertFalse("age" in self.test)
@@ -54,7 +49,3 @@ class TestOrderedDict(unittest.TestCase):
         self.assertTrue("location" in self.test)
         del self.test['location']
         self.assertFalse("location" in self.test)
-
-
-if __name__ == "__main__":
-    unittest.main()

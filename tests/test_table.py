@@ -4,7 +4,9 @@ import unittest
 import schemaobject
 
 class TestTableSchema(unittest.TestCase):
+
     def setUp(self):
+        self.database_url = "mysql://root:root@localhost:3306/"
         self.db = schemaobject.SchemaObject(self.database_url + 'sakila')
         self.db = self.db.selected
 
@@ -64,8 +66,3 @@ class TestTableSchema(unittest.TestCase):
 
     def test_table_drop(self):
         self.assertEqual("DROP TABLE `actor`;", self.db.tables['actor'].drop())
-
-if __name__ == "__main__":
-    from .test_all import get_database_url
-    TestTableSchema.database_url = get_database_url()
-    unittest.main()

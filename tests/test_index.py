@@ -2,17 +2,20 @@
 import unittest
 import schemaobject
 
+
 class TestIndexSchema(unittest.TestCase):
+
     def setUp(self):
-            self.db = schemaobject.SchemaObject(self.database_url + 'sakila')
-            self.db = self.db.selected
+        self.database_url = "mysql://root:root@localhost:3306/"
+        self.db = schemaobject.SchemaObject(self.database_url + 'sakila', charset='utf8')
+        self.db = self.db.selected
 
     def test_format_sub_part_with_length(self):
-        self.assertEqual('`name`(16)', schemaobject.index.IndexSchema.format_sub_part('name', 16))
+        self.assertEqual('`name`(16)', self.db.index.IndexSchema.format_sub_part('name', 16))
 
     def test_format_sub_part_without_length(self):
-        self.assertEqual('`name`', schemaobject.index.IndexSchema.format_sub_part('name', 0))
-        self.assertEqual('`name`', schemaobject.index.IndexSchema.format_sub_part('name', None))
+        self.assertEqual('`name`', self.db.index.IndexSchema.format_sub_part('name', 0))
+        self.assertEqual('`name`', self.db.index.IndexSchema.format_sub_part('name', None))
 
     def test_index_exists(self):
         assert "idx_fk_address_id" in self.db.tables['customer'].indexes
@@ -63,23 +66,23 @@ class TestIndexSchema(unittest.TestCase):
 
     def test_drop_index(self):
         self.assertEqual(self.db.tables['rental'].indexes['rental_date'].drop(),
-                        "DROP INDEX `rental_date`")
+            "DROP INDEX `rental_date` ON `rental`")
 
     def test_drop_primary_key(self):
         self.assertEqual(self.db.tables['customer'].indexes['PRIMARY'].drop(),
-                        "DROP PRIMARY KEY")
+            "DROP PRIMARY KEY")
 
     def test_add_primary_key(self):
         self.assertEqual(self.db.tables['customer'].indexes['PRIMARY'].create(),
-                        "ADD PRIMARY KEY (`customer_id`) USING BTREE")
+            "ADD PRIMARY KEY (`customer_id`) USING BTREE")
 
     def test_add_unique_index(self):
         self.assertEqual(self.db.tables['rental'].indexes['rental_date'].create(),
-                        "ADD UNIQUE INDEX `rental_date` (`rental_date`, `inventory_id`, `customer_id`) USING BTREE")
+            "ADD UNIQUE INDEX `rental_date` (`rental_date`, `inventory_id`, `customer_id`) USING BTREE")
 
     def test_add_fulltext_index(self):
         self.assertEqual(self.db.tables['film_text'].indexes['idx_title_description'].create(),
-                        "ADD FULLTEXT INDEX `idx_title_description` (`title`, `description`)")
+            "ADD FULLTEXT INDEX `idx_title_description` (`title`, `description`)")
 
     def test_add_index_using_BTREE(self):
       self.assertEqual(self.db.tables['payment'].indexes['idx_fk_staff_id'].create(),
@@ -96,9 +99,3 @@ class TestIndexSchema(unittest.TestCase):
 
     def test_add_index_with_subpart(self):
         assert False, "Add subparts to indicies in test DB"
-
-
-if __name__ == "__main__":
-    from .test_all import get_database_url
-    TestIndexSchema.database_url = get_database_url()
-    unittest.main()

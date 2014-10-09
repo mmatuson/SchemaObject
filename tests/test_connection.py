@@ -5,9 +5,9 @@ Tests for the Database Connection URL (RFC 1738)
 http://www.ietf.org/rfc/rfc1738.txt
 """
 
-import re
 import unittest
 from schemaobject.connection import REGEX_RFC1738
+
 
 class TestDatabaseURL(unittest.TestCase):
 
@@ -214,6 +214,3 @@ class TestDatabaseURL(unittest.TestCase):
         self.assertEqual(matches.group('password'), 'password')
         self.assertEqual(matches.group('host'), '')
         self.assertEqual(matches.group('port'), None)
-
-if __name__ == '__main__':
-    unittest.main()

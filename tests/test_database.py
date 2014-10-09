@@ -3,25 +3,28 @@
 import unittest
 import schemaobject
 
+
 class TestDatabaseSchema(unittest.TestCase):
+
     def setUp(self):
-        self.db = schemaobject.SchemaObject(self.database_url + 'sakila')
+        self.database_url = "mysql://root:root@localhost:3306/"
+        self.db = schemaobject.SchemaObject(self.database_url + 'sakila', charset='utf8')
         self.db = self.db.selected
 
     def test_database_name(self):
         self.assertEqual("sakila", self.db.name)
 
     def test_database_option_charset(self):
-        self.assertEqual("latin1", self.db.options['charset'].value)
+        self.assertEqual("utf8", self.db.options['charset'].value)
 
     def test_database_option_collation(self):
-        self.assertEqual("latin1_swedish_ci", self.db.options['collation'].value)
+        self.assertEqual("utf8_general_ci", self.db.options['collation'].value)
 
     def test_database_alter(self):
         self.assertEqual("ALTER DATABASE `sakila`", self.db.alter())
 
     def test_database_create(self):
-        self.assertEqual("CREATE DATABASE `sakila` CHARACTER SET=latin1 COLLATE=latin1_swedish_ci;",
+        self.assertEqual("CREATE DATABASE `sakila` CHARACTER SET=utf8 COLLATE=utf8_general_ci;",
                           self.db.create())
 
     def test_database_drop(self):
@@ -35,8 +38,3 @@ class TestDatabaseSchema(unittest.TestCase):
 
     def test_databases_neq(self):
         self.assertNotEqual(self.db, None)
-
-if __name__ == "__main__":
-    from .test_all import get_database_url
-    TestDatabaseSchema.database_url = get_database_url()
-    unittest.main()
