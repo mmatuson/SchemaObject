@@ -7,7 +7,7 @@ class TestTableSchema(unittest.TestCase):
 
     def setUp(self):
         self.database_url = "mysql://root:root@localhost:3306/"
-        self.db = schemaobject.SchemaObject(self.database_url + 'sakila')
+        self.db = schemaobject.SchemaObject(self.database_url + 'sakila', charset='utf8')
         self.db = self.db.selected
 
     def test_table_count(self):
