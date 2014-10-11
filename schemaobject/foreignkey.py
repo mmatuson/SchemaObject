@@ -1,12 +1,4 @@
-import re
 from schemaobject.collections import OrderedDict
-
-
-REGEX_FK_REFERENCE_OPTIONS = r"""
-    `%s`(?:.(?!ON\ DELETE)(?!ON\ UPDATE))*
-    (?:\sON\sDELETE\s(?P<on_delete>(?:RESTRICT|CASCADE|SET\ NULL|NO\ ACTION)))?
-    (?:\sON\sUPDATE\s(?P<on_update>(?:RESTRICT|CASCADE|SET\ NULL|NO\ ACTION)))?
-    """
 
 
 def ForeignKeySchemaBuilder(table):
@@ -18,8 +10,30 @@ def ForeignKeySchemaBuilder(table):
       This function is automatically called for you and set to
       ``schema.databases[name].tables[name].foreign_keys`` when you create an instance of SchemaObject
     """
+
     conn = table.parent.parent.connection
     fkeys = OrderedDict()
+
+
+    def _get_reference_rules(information_schema, table_name, constraint_name):
+        """
+        Returns tuple of strings (update_rule, delete_rule)
+        (None,None) if constraint not found
+
+        """
+        #  select UPDATE_RULE, DELETE_RULE from information_schema.REFERENTIAL_CONSTRAINTS where CONSTRAINT_SCHEMA = 'sakila' and TABLE_NAME = 'payment' and CONSTRAINT_NAME = 'fk_payment_customer';
+        sql = """
+            SELECT UPDATE_RULE,
+                   DELETE_RULE
+            FROM information_schema.REFERENTIAL_CONSTRAINTS
+            WHERE CONSTRAINT_SCHEMA = '%s' and TABLE_NAME = '%s' and CONSTRAINT_NAME = '%s'
+            """
+        result = conn.execute(sql % (information_schema, table_name, constraint_name))
+        if result:
+            return (result[0]['UPDATE_RULE'], result[0]['DELETE_RULE'])
+        else:
+            return (None, None)
+
 
     sql = """
             SELECT K.CONSTRAINT_NAME,
@@ -38,34 +52,29 @@ def ForeignKeySchemaBuilder(table):
     if not constraints:
         return fkeys
 
-    table_def = conn.execute("SHOW CREATE TABLE `%s`.`%s`" % (table.parent.name, table.name))[0]["Create Table"]
-
     for fk in constraints:
         n = fk['CONSTRAINT_NAME']
 
         if n not in fkeys:
-            FKItem = ForeignKeySchema(name=n, parent=table)
+            fk_item = ForeignKeySchema(name=n, parent=table)
+            fk_item.symbol = n
+            fk_item.table_schema = fk['TABLE_SCHEMA']
+            fk_item.table_name = fk['TABLE_NAME']
+            fk_item.referenced_table_schema = fk['REFERENCED_TABLE_SCHEMA']
+            fk_item.referenced_table_name = fk['REFERENCED_TABLE_NAME']
+            fk_item.update_rule, fk_item.delete_rule = _get_reference_rules(fk_item.table_schema,
+                                                                            fk_item.table_name, fk_item.symbol)
+            fkeys[n] = fk_item
 
-            FKItem.symbol = n
-            FKItem.table_schema = fk['TABLE_SCHEMA']
-            FKItem.table_name = fk['TABLE_NAME']
-            FKItem.referenced_table_schema = fk['REFERENCED_TABLE_SCHEMA']
-            FKItem.referenced_table_name = fk['REFERENCED_TABLE_NAME']
-
-            reference_options = re.search(REGEX_FK_REFERENCE_OPTIONS % n, table_def, re.X)
-            if reference_options:
-                #If ON DELETE or ON UPDATE are not specified, the default action is RESTRICT.
-                FKItem.update_rule = reference_options.group('on_update') or 'RESTRICT'
-                FKItem.delete_rule = reference_options.group('on_delete') or 'RESTRICT'
-
-            fkeys[n] = FKItem
 
         # POSITION_IN_UNIQUE_CONSTRAINT may be None
         pos = fk['POSITION_IN_UNIQUE_CONSTRAINT'] or 0
 
+
         #columns for this fk
         if fk['COLUMN_NAME'] not in fkeys[n].columns:
             fkeys[n].columns.insert(pos, fk['COLUMN_NAME'])
+
 
         #referenced columns for this fk
         if fk['REFERENCED_COLUMN_NAME'] not in fkeys[n].referenced_columns:
@@ -88,32 +97,32 @@ class ForeignKeySchema(object):
 
     Example
 
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys.keys()
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys.keys()
       ['fk_rental_customer', 'fk_rental_inventory', 'fk_rental_staff']
 
 
     Foreign Key Attributes
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].name
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].name
       'fk_rental_inventory'
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].symbol
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].symbol
       'fk_rental_inventory'
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].table_schema
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].table_schema
       'sakila'
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].table_name
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].table_name
       'rental'
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].columns
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].columns
       ['inventory_id']
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].referenced_table_name
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].referenced_table_name
       'inventory'
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].referenced_table_schema
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].referenced_table_schema
       'sakila'
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].referenced_columns
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].referenced_columns
       ['inventory_id']
       #match_option will always be None in MySQL 5.x, 6.x
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].match_option
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].update_rule
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].match_option
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].update_rule
       'CASCADE'
-      >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].delete_rule
+      '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].delete_rule
       'RESTRICT'
     """
 
@@ -147,13 +156,13 @@ class ForeignKeySchema(object):
         if length:
             return "`%s`(%d)" % (field, length)
         else:
-            return "`%s`" % (field)
+            return "`%s`" % field
 
     def create(self):
         """
         Generate the SQL to create (ADD) this foreign key
 
-          >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].create()
+          '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].create()
           'ADD CONSTRAINT `fk_rental_inventory`
           FOREIGN KEY `fk_rental_inventory` (`inventory_id`)
           REFERENCES `inventory` (`inventory_id`)
@@ -186,7 +195,7 @@ class ForeignKeySchema(object):
         """
         Generate the SQL to drop this foreign key
 
-          >>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].drop()
+          '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].drop()
           'DROP FOREIGN KEY `fk_rental_inventory`'
         """
         return "DROP FOREIGN KEY `%s`" % (self.symbol)
@@ -196,7 +205,7 @@ class ForeignKeySchema(object):
             return False
 
         # table_schema and referenced_table_schema are ignored
-        return  ((self.table_name == other.table_name)
+        return ((self.table_name == other.table_name)
                 and (self.referenced_table_name == other.referenced_table_name)
                 and (self.update_rule == other.update_rule)
                 and (self.delete_rule == other.delete_rule)
