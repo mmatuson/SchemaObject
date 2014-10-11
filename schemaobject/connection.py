@@ -1,4 +1,4 @@
-import MySQLdb
+import pymysql
 import re
 
 REGEX_RFC1738 = re.compile(r'''
@@ -69,7 +69,8 @@ class DatabaseConnection(object):
         rows = cursor.fetchall()
 
         cursor.close()
-        return  [dict(zip(fields, row)) for row in rows]
+        a = [dict(zip(fields, row)) for row in rows]
+        return  a
 
     def connect(self, connection_url, charset):
         """Connect to the database"""
@@ -87,7 +88,7 @@ class DatabaseConnection(object):
         del kwargs['protocol']
         # insert charset option
         kwargs['charset'] = charset
-        self._db = MySQLdb.connect(**kwargs)
+        self._db = pymysql.connect(**kwargs)
 
     def close(self):
         """Close the database connection."""
@@ -98,4 +99,4 @@ class DatabaseConnection(object):
         self.close()
 
 # Alias MySQL exception
-DatabaseError = MySQLdb.Error
+DatabaseError = pymysql.Error

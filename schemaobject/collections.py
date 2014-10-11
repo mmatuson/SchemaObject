@@ -29,7 +29,7 @@ class OrderedDict(dict):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         i = self._current
         self._current += 1
         if self._current > len(self._sequence):

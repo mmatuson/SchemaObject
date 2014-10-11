@@ -10,26 +10,26 @@ class TestOrderedDict(unittest.TestCase):
         self.test['location'] = "New York"
 
     def test_eq_dict_keys(self):
-        self.assertEqual( ['name', 'location'], self.test.keys() )
+        self.assertEqual( ['name', 'location'], list(self.test.keys()) )
 
     def test_neq_dict_keys(self):
-        self.assertNotEqual( ['location', 'name'], self.test.keys() )
+        self.assertNotEqual( ['location', 'name'], list(self.test.keys()) )
 
     def test_eq_dict_items(self):
-        self.assertEqual( [('name', 'John Smith'), ('location', 'New York')], self.test.items() )
+        self.assertEqual( [('name', 'John Smith'), ('location', 'New York')], list(self.test.items()) )
 
     def test_neq_dict_items(self):
-        self.assertNotEqual( [('location', 'New York'), ('name', 'John Smith')], self.test.items() )
+        self.assertNotEqual( [('location', 'New York'), ('name', 'John Smith')], list(self.test.items()) )
 
     def test_dict_iterkeys(self):
-        for i, v in enumerate(self.test.iterkeys()):
+        for i, v in enumerate(self.test.keys()):
             if i == 0:
                 self.assertEqual(v, 'name')
             if i == 1:
                 self.assertEqual(v, 'location')
 
     def test_dict_iteritems(self):
-        for i, v in enumerate(self.test.iteritems()):
+        for i, v in enumerate(self.test.items()):
             if i == 0:
                 self.assertEqual(v, ('name', 'John Smith'))
             if i == 1:
@@ -37,12 +37,7 @@ class TestOrderedDict(unittest.TestCase):
 
     def test_index(self):
         self.assertEqual(1, self.test.index("location"))
-        try:
-            self.test.index("unknown_key")
-        except ValueError:
-            pass
-        else:
-            self.assertFalse()
+        self.assertRaises(ValueError, self.test.index, ("unknown_key",))
 
     def test_insert(self):
         self.assertFalse("age" in self.test)
@@ -54,7 +49,3 @@ class TestOrderedDict(unittest.TestCase):
         self.assertTrue("location" in self.test)
         del self.test['location']
         self.assertFalse("location" in self.test)
-
-
-if __name__ == "__main__":
-    unittest.main()

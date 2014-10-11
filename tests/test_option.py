@@ -43,7 +43,3 @@ class TestOptionSchema(unittest.TestCase):
     opt = SchemaOption('key', 'value1')
     opt2 = SchemaOption('key', 'value2')
     assert opt != opt2
-
-
-if __name__ == "__main__":
-    unittest.main()
