@@ -42,6 +42,13 @@ def parse_database_url(url):
 
     return result
 
+def build_database_url(host, protocol='mysql', username='root', password='', port=3306, database=None):
+    if password:
+        password = ':' + password
+    result = "%s://%s%s@%s:%i/" % (protocol, username, password, host, port, )
+    if database:
+        result = result + database
+    return result
 
 class DatabaseConnection(object):
     """A lightweight wrapper around MySQLdb DB-API"""
