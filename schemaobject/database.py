@@ -26,7 +26,7 @@ def DatabaseSchemaBuilder(instance):
     else:
         params = None
 
-    databases = conn.execute(sql, params)
+    databases = conn.execute(sql, (params,))
 
     if not databases:
         return d
