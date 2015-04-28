@@ -71,7 +71,7 @@ class DatabaseConnection(object):
         cursor.close()
         return  [dict(zip(fields, row)) for row in rows]
 
-    def connect(self, connection_url):
+    def connect(self, connection_url, charset):
         """Connect to the database"""
 
         kwargs = parse_database_url(connection_url)
@@ -82,6 +82,7 @@ class DatabaseConnection(object):
         self.host = kwargs.get('host', 'localhost')
         self.port = kwargs.get('port', 3306)
         self.user = kwargs.get('user', None)
+        kwargs['charset'] = charset
 
         # can't pass protocol to MySQLdb
         del kwargs['protocol']
