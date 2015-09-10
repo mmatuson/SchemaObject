@@ -136,7 +136,7 @@ class DatabaseSchema(object):
 
     def fk_checks(self,val=1):
         if not val in (0,1): val=1
-        return "SET FOREIGN_KEY_CHECKS = %s" % val
+        return "SET FOREIGN_KEY_CHECKS = %s;" % val
 
     def alter(self):
         """
