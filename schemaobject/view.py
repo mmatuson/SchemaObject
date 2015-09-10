@@ -1,27 +1,37 @@
+import re
 from schemaobject.collections import OrderedDict
 
 def ViewSchemaBuilder(database):
     conn = database.parent.connection
 
     v = OrderedDict()
+
     sql = """
-            SELECT TABLE_NAME, VIEW_DEFINITION
+            SELECT TABLE_NAME 
             FROM information_schema.views
             WHERE TABLE_SCHEMA = '%s'
+            ORDER BY TABLE_NAME
         """
+
     views = conn.execute(sql % database.name)
 
     if not views:
         return v
 
-    for view_info in views:
-        view_name = view_info['TABLE_NAME']
-        
-        vv = ViewSchema(name=view_name,parent=database)
-        vv.definition = view_info['VIEW_DEFINITION']
-   
-        v[view_name] = vv
+    for view in views:
+        vname = view['TABLE_NAME']
+        sql = "SHOW CREATE VIEW %s"
+        view_desc = conn.execute(sql % vname)
+        if not view_desc: continue
+        view_desc = view_desc[0]
 
+        vv = ViewSchema(name=vname,parent=database)
+        s = re.search('\(?select', view_desc['Create View'], re.IGNORECASE)
+        if not s: continue
+
+        vv.definition = view_desc['Create View'][s.start():]
+        v[vname] = vv
+    
     return v
 
 class ViewSchema(object):
