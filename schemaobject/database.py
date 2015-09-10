@@ -134,6 +134,10 @@ class DatabaseSchema(object):
         """
         return "USE `%s`;" % self.name
 
+    def fk_checks(self,val=1):
+        if not val in (0,1): val=1
+        return "SET FOREIGN_KEY_CHECKS = %s" % val
+
     def alter(self):
         """
         Generate the SQL to alter this database
