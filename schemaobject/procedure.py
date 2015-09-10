@@ -22,18 +22,22 @@ def ProcedureSchemaBuilder(database):
         pname = procedure['ROUTINE_NAME']
         sql = "SHOW CREATE PROCEDURE %s"
         proc_desc = conn.execute(sql % pname)
-        if not proc_desc or not proc_desc[0]['Create Procedure']: continue
+        if not proc_desc: continue
+
         proc_desc = proc_desc[0]
 
         pp = ProcedureSchema(name=pname, parent=database)
-        s = re.search('\(',proc_desc['Create Procedure'])
-        if not s: continue
+        if not proc_desc['Create Procedure']:
+            pp.definition = "() BEGIN SELECT 'Cannot access to mysql.proc in source DB'; END"
+        else:
+            s = re.search('\(',proc_desc['Create Procedure'])
+            if not s: continue
 
-        definition = re.sub('--.*',
+            definition = re.sub('--.*',
                                 '',
                                 proc_desc['Create Procedure'][s.start():])
-		pp.definition = definition.replace('\n','').replace('\r\n','').replace('\r','')
 
+            pp.definition = re.sub('\s\s+', ' ', definition)
         p[pname] = pp
 
     return p
