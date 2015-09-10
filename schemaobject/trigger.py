@@ -1,3 +1,4 @@
+import re
 from schemaobject.collections import OrderedDict
 
 def TriggerSchemaBuilder(database):
@@ -21,7 +22,8 @@ def TriggerSchemaBuilder(database):
         trig_name = trigger['TRIGGER_NAME']
         
         trig = TriggerSchema(name=trig_name, parent=database)
-        trig.statement = trigger['ACTION_STATEMENT']
+        body = trigger['ACTION_STATEMENT']
+        trig.statement = re.sub('\s\s+',' ', body)
         trig.timing = trigger['ACTION_TIMING']
         trig.event = trigger['EVENT_MANIPULATION']
         trig.table = trigger['EVENT_OBJECT_TABLE']
@@ -69,4 +71,4 @@ class TriggerSchema(object):
                 and (self.event == other.event))
 
     def __ne__(self, other):
-        return not self._eq__(other)
+        return not self.__eq__(other)
