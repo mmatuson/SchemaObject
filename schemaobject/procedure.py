@@ -7,10 +7,10 @@ def ProcedureSchemaBuilder(database):
     p = OrderedDict()
 
     sql = """
-            SELECT name, param_list, body, created, modified, comment
-            FROM mysql.proc
-            WHERE type = 'PROCEDURE'
-            AND db = '%s'
+            SELECT ROUTINE_NAME
+            FROM information_schema.routines
+            WHERE ROUTINE_TYPE='PROCEDURE'
+            AND ROUTINE_SCHEMA='%s'
         """
 
     procedures = conn.execute(sql % database.name)
@@ -18,20 +18,23 @@ def ProcedureSchemaBuilder(database):
     if not procedures:
         return p
 
-    for proc_info in procedures:
-        proc_name = proc_info['name']
+    for procedure in procedures:
+        pname = procedure['ROUTINE_NAME']
+        sql = "SHOW CREATE PROCEDURE %s"
+        proc_desc = conn.execute(sql % pname)
+        if not proc_desc or not proc_desc[0]['Create Procedure']: continue
+        proc_desc = proc_desc[0]
 
-        proc = ProcedureSchema(name=proc_name, parent=database)
-        proc.param_list = proc_info['param_list']
-        body = re.sub('--.*','',proc_info['body']) # Remove SQL comments
-        # Remove newlines to be able to compare strings
-        body = body.replace('\n',' ').replace('\r', ' ').replace('\r\n', ' ') 
-        proc.body = body
-        proc.created = proc_info['created']
-        proc.modified = proc_info['modified']
-        proc.comment = proc_info['comment']
+        pp = ProcedureSchema(name=pname, parent=database)
+        s = re.search('\(',proc_desc['Create Procedure'])
+        if not s: continue
 
-        p[proc_name] = proc
+        definition = re.sub('--.*',
+                                '',
+                                proc_desc['Create Procedure'][s.start():])
+		pp.definition = definition.replace('\n','').replace('\r\n','').replace('\r','')
+
+        p[pname] = pp
 
     return p
 
@@ -39,20 +42,11 @@ class ProcedureSchema(object):
     def __init__(self, name, parent):
         self.parent = parent
         self.name = name
-        self.param_list = None
-        self.body = None
-        self.created = None
-        self.modified = None
-        self.comment = None
+        self.definition = None
 
     def define(self):
         sql = []
-        sql.append("`%s` (%s) %s" % (self.name, self.param_list,self.body))
-
-        if self.comment is not None and len(self.comment) > 0:
-            sql.append("COMMENT '%s'" % self.comment)
-
-        return ' '.join(sql)
+        return "`%s` %s" % (self.name, self.definition)
 
     def create(self):
         return "DELIMITER ;; CREATE PROCEDURE %s;; DELIMITER ;" % self.define()
@@ -68,9 +62,7 @@ class ProcedureSchema(object):
             return False
 
         return ((self.name == other.name)
-                and (self.param_list == other.param_list)
-                and (self.body == other.body)
-                and (self.comment == other.comment))
+                and (self.definition == other.definition))
 
     def __ne__(self, other):
         return not self.__eq__(other)
