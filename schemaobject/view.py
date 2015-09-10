@@ -7,10 +7,10 @@ def ViewSchemaBuilder(database):
     v = OrderedDict()
 
     sql = """
-            SELECT TABLE_NAME 
-            FROM information_schema.views
-            WHERE TABLE_SCHEMA = '%s'
-            ORDER BY TABLE_NAME
+        SELECT TABLE_NAME 
+        FROM information_schema.views
+        WHERE TABLE_SCHEMA = '%s'
+        ORDER BY TABLE_NAME
         """
 
     views = conn.execute(sql % database.name)
