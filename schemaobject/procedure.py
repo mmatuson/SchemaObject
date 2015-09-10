@@ -53,7 +53,9 @@ class ProcedureSchema(object):
         return "`%s` %s" % (self.name, self.definition)
 
     def create(self):
-        return "DELIMITER ;; CREATE PROCEDURE %s;; DELIMITER ;" % self.define()
+        # SELECT 1 is used so that filters applied to data don't mess
+        # with the last DELIMITER
+        return "DELIMITER ;; CREATE PROCEDURE %s;; DELIMITER ; SELECT 1;" % self.define()
 
     def modify(self, *args, **kwargs):
         pass # Not needed for now, one cannot alter body

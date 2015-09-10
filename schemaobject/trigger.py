@@ -52,7 +52,9 @@ class TriggerSchema(object):
         return ' '.join(sql)
 
     def create(self):
-        return "DELIMITER ;; CREATE TRIGGER %s;; DELIMITER ;" % self.define()
+        # SELECT 1 is used so that filters applied to data don't mess
+        # with the last DELIMITER
+        return "DELIMITER ;; CREATE TRIGGER %s;; DELIMITER ; SELECT 1;" % self.define()
    
     def modify(self):
         pass # Need to drop + re-create
