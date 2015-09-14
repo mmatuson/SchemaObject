@@ -9,7 +9,7 @@ setup(
     
     packages=['schemaobject'],
     
-    version='0.5.4',
+    version='0.5.5',
     
     description="Iterate over a MySQL database schema as a Python object.",
     
