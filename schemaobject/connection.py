@@ -60,6 +60,8 @@ class DatabaseConnection(object):
 
     def execute(self, sql, values=None):
         cursor = self._db.cursor()
+        if isinstance(values, (basestring, unicode)):
+            values = (values,)
         cursor.execute(sql, values)
 
         if not cursor.rowcount:
