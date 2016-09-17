@@ -4,15 +4,17 @@ import unittest
 import schemaobject
 
 class TestTableSchema(unittest.TestCase):
+
     def setUp(self):
-        self.db = schemaobject.SchemaObject(self.database_url + 'sakila')
+        self.database_url = "mysql://root:root@localhost:3306/"
+        self.db = schemaobject.SchemaObject(self.database_url + 'sakila', charset='utf8')
         self.db = self.db.selected
 
     def test_table_count(self):
         self.assertEqual(16, len(self.db.tables))
 
     def test_tables(self):
-        self.assertEqual(self.db.tables.keys(), ['actor','address','category','city','country','customer',
+        self.assertEqual(list(self.db.tables.keys()), ['actor','address','category','city','country','customer',
          'film','film_actor','film_category','film_text','inventory',
           'language','payment','rental','staff','store'])
 
@@ -64,8 +66,3 @@ class TestTableSchema(unittest.TestCase):
 
     def test_table_drop(self):
         self.assertEqual("DROP TABLE `actor`;", self.db.tables['actor'].drop())
-
-if __name__ == "__main__":
-    from test_all import get_database_url
-    TestTableSchema.database_url = get_database_url()
-    unittest.main()

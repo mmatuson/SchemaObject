@@ -55,11 +55,11 @@ class DatabaseSchema(object):
     ``name`` is the database name.
     ``parent`` is an instance of SchemaObject
 
-        >>> for db in schema.databases:
+        '>>> for db in schema.databases:
         ...     print schema.databases[db].name
         ...
         sakila
-        >>> schema.databases['sakila'].name
+        '>>> schema.databases['sakila'].name
         'sakila'
 
     .. note::
@@ -80,7 +80,7 @@ class DatabaseSchema(object):
     def tables(self):
         """
         Lazily loaded dictionary of all the tables within this database. See TableSchema for usage
-          >>> len(schema.databases['sakila'].tables)
+          '>>> len(schema.databases['sakila'].tables)
           16
         """
         if self._tables == None:
