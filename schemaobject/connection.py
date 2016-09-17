@@ -67,6 +67,8 @@ class DatabaseConnection(object):
 
     def execute(self, sql, values=None):
         cursor = self._db.cursor()
+        if isinstance(values, (basestring, unicode)):
+            values = (values,)
         cursor.execute(sql, values)
 
         if not cursor.rowcount:
@@ -90,6 +92,7 @@ class DatabaseConnection(object):
         self.host = kwargs.get('host', 'localhost')
         self.port = kwargs.get('port', 3306)
         self.user = kwargs.get('user', None)
+        kwargs['charset'] = charset
 
         # can't pass protocol to MySQLdb
         del kwargs['protocol']
