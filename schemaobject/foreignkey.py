@@ -3,7 +3,7 @@ from schemaobject.collections import OrderedDict
 
 
 REGEX_FK_REFERENCE_OPTIONS = r"""
-    `%s`(?:.(?!ON\ DELETE)(?!ON\ UPDATE))*
+    CONSTRAINT\ `%s`(?:.(?!ON\ DELETE)(?!ON\ UPDATE))*
     (?:\sON\sDELETE\s(?P<on_delete>(?:RESTRICT|CASCADE|SET\ NULL|NO\ ACTION)))?
     (?:\sON\sUPDATE\s(?P<on_update>(?:RESTRICT|CASCADE|SET\ NULL|NO\ ACTION)))?
     """
