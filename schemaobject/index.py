@@ -124,7 +124,7 @@ class IndexSchema(object):
             return "`%s`(%d)" % (field, length)
 
         except ValueError:
-            return "`%s`" % (field)
+            return "`%s`" % (field,)
 
     def create(self):
         """
@@ -168,7 +168,7 @@ class IndexSchema(object):
         if self.name == 'PRIMARY':
             return "DROP PRIMARY KEY"
         else:
-            return "DROP INDEX `%s`" % (self.name)
+            return "DROP INDEX `%s` ON `%s`" % (self.name, self.parent.name)
 
     def __eq__(self, other):
         if not isinstance(other, IndexSchema):

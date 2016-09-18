@@ -1,7 +1,9 @@
 from schemaobject.option import SchemaOption
 from schemaobject.table import TableSchemaBuilder
+from schemaobject.procedure import ProcedureSchemaBuilder
 from schemaobject.collections import OrderedDict
-
+from schemaobject.trigger import TriggerSchemaBuilder
+from schemaobject.view import ViewSchemaBuilder
 
 def DatabaseSchemaBuilder(instance):
     """
@@ -26,7 +28,7 @@ def DatabaseSchemaBuilder(instance):
     else:
         params = None
 
-    databases = conn.execute(sql, params)
+    databases = conn.execute(sql, (params,))
 
     if not databases:
         return d
@@ -53,11 +55,11 @@ class DatabaseSchema(object):
     ``name`` is the database name.
     ``parent`` is an instance of SchemaObject
 
-        >>> for db in schema.databases:
+        '>>> for db in schema.databases:
         ...     print schema.databases[db].name
         ...
         sakila
-        >>> schema.databases['sakila'].name
+        '>>> schema.databases['sakila'].name
         'sakila'
 
     .. note::
@@ -70,17 +72,29 @@ class DatabaseSchema(object):
         self.name = name
         self._options = None
         self._tables = None
+        self._procedures = None
+        self._triggers = None
+        self._views = None
 
     @property
     def tables(self):
         """
         Lazily loaded dictionary of all the tables within this database. See TableSchema for usage
-          >>> len(schema.databases['sakila'].tables)
+          '>>> len(schema.databases['sakila'].tables)
           16
         """
         if self._tables == None:
             self._tables = TableSchemaBuilder(database=self)
         return self._tables
+
+    @property
+    def views(self):
+        """
+        Lazily loaded dictionnary of all the views within this database. See ViewSchema for usage
+        """
+        if self._views == None:
+            self._views = ViewSchemaBuilder(database=self)
+        return self._views
 
     @property
     def options(self):
@@ -94,6 +108,24 @@ class DatabaseSchema(object):
             self._options = OrderedDict()
         return self._options
 
+    @property
+    def procedures(self):
+        """
+        Lazily loaded dictionnary of all the procedures within this database. See ProcedureSchema for usage.
+        """
+        if self._procedures is None:
+            self._procedures = ProcedureSchemaBuilder(database=self)
+        return self._procedures
+
+    @property
+    def triggers(self):
+        """
+        Lazily loaded dictionnary of all the triggers within this database. See TriggerSchema for usage.
+        """
+        if self._triggers is None:
+            self._triggers = TriggerSchemaBuilder(database=self)
+        return self._triggers
+
     def select(self):
         """
         Generate the SQL to select this database
@@ -101,6 +133,10 @@ class DatabaseSchema(object):
           'USE `sakila`;'
         """
         return "USE `%s`;" % self.name
+
+    def fk_checks(self,val=1):
+        if not val in (0,1): val=1
+        return "SET FOREIGN_KEY_CHECKS = %s;" % val
 
     def alter(self):
         """

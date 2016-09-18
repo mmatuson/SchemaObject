@@ -5,9 +5,10 @@ Tests for the Database Connection URL (RFC 1738)
 http://www.ietf.org/rfc/rfc1738.txt
 """
 
-import re
 import unittest
 from schemaobject.connection import REGEX_RFC1738
+from schemaobject.connection import build_database_url
+
 
 class TestDatabaseURL(unittest.TestCase):
 
@@ -215,5 +216,13 @@ class TestDatabaseURL(unittest.TestCase):
         self.assertEqual(matches.group('host'), '')
         self.assertEqual(matches.group('port'), None)
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_build_url_host(self):
+        url = build_database_url('host')
+        self.assertEqual(url, 'mysql://root@host:3306/')
+
+    def test_build_url_database(self):
+        url = build_database_url(host='host', password='pwd', database='test')
+        self.assertEqual(url, 'mysql://root:pwd@host:3306/test')
+
+    def test_build_url_missed_host(self):
+        self.assertRaises(TypeError, build_database_url)

@@ -1,4 +1,4 @@
-import MySQLdb
+import pymysql
 import re
 
 REGEX_RFC1738 = re.compile(r'''
@@ -42,6 +42,13 @@ def parse_database_url(url):
 
     return result
 
+def build_database_url(host, protocol='mysql', username='root', password='', port=3306, database=None):
+    if password:
+        password = ':' + password
+    result = "%s://%s%s@%s:%i/" % (protocol, username, password, host, port, )
+    if database:
+        result = result + database
+    return result
 
 class DatabaseConnection(object):
     """A lightweight wrapper around MySQLdb DB-API"""
@@ -71,9 +78,10 @@ class DatabaseConnection(object):
         rows = cursor.fetchall()
 
         cursor.close()
-        return  [dict(zip(fields, row)) for row in rows]
+        a = [dict(zip(fields, row)) for row in rows]
+        return  a
 
-    def connect(self, connection_url):
+    def connect(self, connection_url, charset):
         """Connect to the database"""
 
         kwargs = parse_database_url(connection_url)
@@ -84,10 +92,13 @@ class DatabaseConnection(object):
         self.host = kwargs.get('host', 'localhost')
         self.port = kwargs.get('port', 3306)
         self.user = kwargs.get('user', None)
+        kwargs['charset'] = charset
 
         # can't pass protocol to MySQLdb
         del kwargs['protocol']
-        self._db = MySQLdb.connect(**kwargs)
+        # insert charset option
+        kwargs['charset'] = charset
+        self._db = pymysql.connect(**kwargs)
 
     def close(self):
         """Close the database connection."""
@@ -98,4 +109,4 @@ class DatabaseConnection(object):
         self.close()
 
 # Alias MySQL exception
-DatabaseError = MySQLdb.Error
+DatabaseError = pymysql.Error
