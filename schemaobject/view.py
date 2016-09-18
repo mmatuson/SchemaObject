@@ -1,7 +1,8 @@
 import re
 from schemaobject.collections import OrderedDict
 
-def ViewSchemaBuilder(database):
+
+def view_schema_builder(database):
     conn = database.parent.connection
 
     v = OrderedDict()
@@ -22,20 +23,24 @@ def ViewSchemaBuilder(database):
         vname = view['TABLE_NAME']
         sql = "SHOW CREATE VIEW %s"
         view_desc = conn.execute(sql % vname)
-        if not view_desc: continue
+        if not view_desc:
+            continue
+
         view_desc = view_desc[0]
 
-        vv = ViewSchema(name=vname,parent=database)
+        vv = ViewSchema(name=vname, parent=database)
         s = re.search('\(?select', view_desc['Create View'], re.IGNORECASE)
-        if not s: continue
+        if not s:
+            continue
 
         vv.definition = view_desc['Create View'][s.start():]
         v[vname] = vv
-    
+
     return v
 
+
 class ViewSchema(object):
-    def __init__(self,name,parent):
+    def __init__(self, name, parent):
         self.parent = parent
         self.name = name
         self.definition = None
@@ -52,12 +57,12 @@ class ViewSchema(object):
     def drop(self):
         return "DROP VIEW `%s`;" % self.name
 
-    def __eq__(self,other):
+    def __eq__(self, other):
         if not isinstance(other, ViewSchema):
             return False
 
         return ((self.name == other.name)
                 and (self.definition == other.definition))
 
-    def __ne__(self,other):
+    def __ne__(self, other):
         return not self.__eq__(other)

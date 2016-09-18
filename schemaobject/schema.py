@@ -1,5 +1,5 @@
 from schemaobject.connection import DatabaseConnection
-from schemaobject.database import DatabaseSchemaBuilder
+from schemaobject.database import database_schema_builder
 
 
 class SchemaObject(object):
@@ -65,6 +65,7 @@ class SchemaObject(object):
           ['sakila']
 
         """
-        if self._databases == None:
-            self._databases = DatabaseSchemaBuilder(instance=self)
+        if self._databases is None:
+            self._databases = database_schema_builder(instance=self)
+
         return self._databases

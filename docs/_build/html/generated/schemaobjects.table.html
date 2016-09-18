@@ -46,7 +46,7 @@
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="schemaobjects.table.ColumnSchemaBuilder">
-<tt class="descclassname">schemaobjects.table.</tt><tt class="descname">ColumnSchemaBuilder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobjects.table.ColumnSchemaBuilder" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">schemaobjects.table.</tt><tt class="descname">column_schema_builder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobjects.table.ColumnSchemaBuilder" title="Permalink to this definition">¶</a></dt>
 <dd><p>loads the list of columns in the table to .columns
 Field, Type, Null, Key, Default, Extra</p>
 <p>IGNORE KEY, PRIVILEGES, MAYBE COMMENT or eq could be false negative</p>
@@ -54,17 +54,17 @@ Field, Type, Null, Key, Default, Extra</p>
 
 <dl class="function">
 <dt id="schemaobjects.table.ForeignKeySchemaBuilder">
-<tt class="descclassname">schemaobjects.table.</tt><tt class="descname">ForeignKeySchemaBuilder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobjects.table.ForeignKeySchemaBuilder" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">schemaobjects.table.</tt><tt class="descname">foreign_key_schema_builder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobjects.table.ForeignKeySchemaBuilder" title="Permalink to this definition">¶</a></dt>
 <dd>Loads all the foreign keys for a given table</dd></dl>
 
 <dl class="function">
 <dt id="schemaobjects.table.IndexSchemaBuilder">
-<tt class="descclassname">schemaobjects.table.</tt><tt class="descname">IndexSchemaBuilder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobjects.table.IndexSchemaBuilder" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">schemaobjects.table.</tt><tt class="descname">index_schema_builder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobjects.table.IndexSchemaBuilder" title="Permalink to this definition">¶</a></dt>
 <dd>This class should be a generator that yields a new index</dd></dl>
 
 <dl class="function">
 <dt id="schemaobjects.table.TableSchemaBuilder">
-<tt class="descclassname">schemaobjects.table.</tt><tt class="descname">TableSchemaBuilder</tt><big>(</big><em>database</em><big>)</big><a class="headerlink" href="#schemaobjects.table.TableSchemaBuilder" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">schemaobjects.table.</tt><tt class="descname">table_schema_builder</tt><big>(</big><em>database</em><big>)</big><a class="headerlink" href="#schemaobjects.table.TableSchemaBuilder" title="Permalink to this definition">¶</a></dt>
 <dd>Load the tables from a mysql database</dd></dl>
 
 </div>

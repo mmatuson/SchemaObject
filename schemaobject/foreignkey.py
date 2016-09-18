@@ -1,7 +1,7 @@
 from schemaobject.collections import OrderedDict
 
 
-def ForeignKeySchemaBuilder(table):
+def foreign_key_schema_builder(table):
     """
     Returns a dictionary loaded with all of the foreign keys available in the table.
     ``table`` must be an instance of TableSchema.
@@ -13,7 +13,6 @@ def ForeignKeySchemaBuilder(table):
 
     conn = table.parent.parent.connection
     fkeys = OrderedDict()
-
 
     def _get_reference_rules(information_schema, table_name, constraint_name):
         """
@@ -30,10 +29,9 @@ def ForeignKeySchemaBuilder(table):
             """
         result = conn.execute(sql % (information_schema, table_name, constraint_name))
         if result:
-            return (result[0]['UPDATE_RULE'], result[0]['DELETE_RULE'])
+            return result[0]['UPDATE_RULE'], result[0]['DELETE_RULE']
         else:
-            return (None, None)
-
+            return None, None
 
     sql = """
             SELECT K.CONSTRAINT_NAME,
@@ -66,17 +64,14 @@ def ForeignKeySchemaBuilder(table):
                                                                             fk_item.table_name, fk_item.symbol)
             fkeys[n] = fk_item
 
-
         # POSITION_IN_UNIQUE_CONSTRAINT may be None
         pos = fk['POSITION_IN_UNIQUE_CONSTRAINT'] or 0
 
-
-        #columns for this fk
+        # columns for this fk
         if fk['COLUMN_NAME'] not in fkeys[n].columns:
             fkeys[n].columns.insert(pos, fk['COLUMN_NAME'])
 
-
-        #referenced columns for this fk
+        # referenced columns for this fk
         if fk['REFERENCED_COLUMN_NAME'] not in fkeys[n].referenced_columns:
             fkeys[n].referenced_columns.insert(pos, fk['REFERENCED_COLUMN_NAME'])
 
@@ -92,7 +87,7 @@ class ForeignKeySchema(object):
     ``parent`` is an instance of TableSchema
 
     .. note::
-      ForeignKeySchema objects are automatically created for you by ForeignKeySchemaBuilder
+      ForeignKeySchema objects are automatically created for you by foreign_key_schema_builder
       and loaded under ``schema.databases[name].tables[name].foreign_keys``
 
     Example
@@ -129,27 +124,27 @@ class ForeignKeySchema(object):
     def __init__(self, name, parent):
         self.parent = parent
 
-        #name of the fk constraint
+        # name of the fk constraint
         self.name = name
         self.symbol = name
 
-        #primary table info
+        # primary table info
         self.table_schema = None
         self.table_name = None
         self.columns = []
 
-        #referenced table info
+        # referenced table info
         self.referenced_table_schema = None
         self.referenced_table_name = None
         self.referenced_columns = []
 
-        #constraint options
-        self.match_option = None #will always be none in mysql 5.0-6.0
+        # constraint options
+        self.match_option = None  # will always be none in mysql 5.0-6.0
         self.update_rule = None
         self.delete_rule = None
 
     @classmethod
-    def _format_referenced_col(self, field, length):
+    def _format_referenced_col(cls, field, length):
         """
         Generate the SQL to format referenced columns in a foreign key
         """
@@ -171,10 +166,8 @@ class ForeignKeySchema(object):
         .. note:
           match_option is ignored when creating a foreign key.
         """
-        sql = []
-        sql.append("ADD CONSTRAINT `%s`" % self.symbol)
-
-        sql.append("FOREIGN KEY `%s` (%s)" % (self.symbol, ",".join([("`%s`" % c) for c in self.columns])))
+        sql = ["ADD CONSTRAINT `%s`" % self.symbol,
+               "FOREIGN KEY `%s` (%s)" % (self.symbol, ",".join([("`%s`" % c) for c in self.columns]))]
 
         if self.referenced_table_schema != self.table_schema:
             sql.append("REFERENCES `%s`.`%s`" % (self.referenced_table_schema, self.referenced_table_name))
@@ -198,7 +191,7 @@ class ForeignKeySchema(object):
           '>>> schema.databases['sakila'].tables['rental'].foreign_keys['fk_rental_inventory'].drop()
           'DROP FOREIGN KEY `fk_rental_inventory`'
         """
-        return "DROP FOREIGN KEY `%s`" % (self.symbol)
+        return "DROP FOREIGN KEY `%s`" % self.symbol
 
     def __eq__(self, other):
         if not isinstance(other, ForeignKeySchema):

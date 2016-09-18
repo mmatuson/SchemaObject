@@ -59,7 +59,7 @@ Supports equality and inequality comparison of ColumnSchema.</p>
 <tt class="docutils literal"><span class="pre">parent</span></tt> is an instance of TableSchema</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">ColumnSchema objects are automatically created for you by ColumnSchemaBuilder
+<p class="last">ColumnSchema objects are automatically created for you by column_schema_builder
 and loaded under <tt class="docutils literal"><span class="pre">schema.databases[name].tables[name].columns</span></tt></p>
 </div>
 <div class="admonition note">
@@ -159,7 +159,7 @@ If <tt class="docutils literal"><span class="pre">after</span></tt> is None, <tt
 
 <dl class="function">
 <dt id="schemaobject.column.ColumnSchemaBuilder">
-<tt class="descclassname">schemaobject.column.</tt><tt class="descname">ColumnSchemaBuilder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobject.column.ColumnSchemaBuilder" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">schemaobject.column.</tt><tt class="descname">column_schema_builder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobject.column.ColumnSchemaBuilder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dictionary loaded with all of the columns availale in the table.
 <tt class="docutils literal"><span class="pre">table</span></tt> must be an instance of TableSchema.</p>
 <div class="admonition note">

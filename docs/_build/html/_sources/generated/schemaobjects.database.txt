@@ -8,9 +8,9 @@
 Functions
 ----------
 
-.. autofunction:: DatabaseSchemaBuilder
+.. autofunction:: database_schema_builder
 
-.. autofunction:: TableSchemaBuilder
+.. autofunction:: table_schema_builder
 
 
 

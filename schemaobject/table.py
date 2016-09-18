@@ -1,14 +1,14 @@
 import re
 from schemaobject.collections import OrderedDict
-from schemaobject.column import ColumnSchemaBuilder
-from schemaobject.index import IndexSchemaBuilder
-from schemaobject.foreignkey import ForeignKeySchemaBuilder
+from schemaobject.column import column_schema_builder
+from schemaobject.index import index_schema_builder
+from schemaobject.foreignkey import foreign_key_schema_builder
 from schemaobject.option import SchemaOption
 
 REGEX_MULTI_SPACE = re.compile('\s\s+')
 
 
-def TableSchemaBuilder(database):
+def table_schema_builder(database):
     """
     Returns a dictionary loaded with all of the tables available in the database.
     ``database`` must be an instance of DatabaseSchema.
@@ -69,7 +69,7 @@ class TableSchema(object):
     ``parent`` is an instance of DatabaseSchema
 
     .. note::
-      TableSchema objects are automatically created for you by TableSchemaBuilder
+      TableSchema objects are automatically created for you by table_schema_builder
       and loaded under ``schema.databases[name].tables``
 
     .. note::
@@ -122,8 +122,8 @@ class TableSchema(object):
           >>> schema.databases['sakila'].tables['rental'].columns.keys()
           ['rental_id', 'rental_date', 'inventory_id', 'customer_id', 'return_date', 'staff_id', 'last_update'
         """
-        if self._columns == None:
-            self._columns = ColumnSchemaBuilder(table=self)
+        if self._columns is None:
+            self._columns = column_schema_builder(table=self)
         return self._columns
 
     @property
@@ -136,8 +136,8 @@ class TableSchema(object):
           >>> schema.databases['sakila'].tables['rental'].indexes.keys()
           ['PRIMARY', 'rental_date', 'idx_fk_inventory_id', 'idx_fk_customer_id', 'idx_fk_staff_id']
         """
-        if self._indexes == None:
-            self._indexes = IndexSchemaBuilder(table=self)
+        if self._indexes is None:
+            self._indexes = index_schema_builder(table=self)
         return self._indexes
 
     @property
@@ -150,8 +150,8 @@ class TableSchema(object):
           >>> schema.databases['sakila'].tables['rental'].foreign_keys.keys()
           ['fk_rental_customer', 'fk_rental_inventory', 'fk_rental_staff']
         """
-        if self._foreign_keys == None:
-            self._foreign_keys = ForeignKeySchemaBuilder(table=self)
+        if self._foreign_keys is None:
+            self._foreign_keys = foreign_key_schema_builder(table=self)
         return self._foreign_keys
 
     @property
@@ -167,7 +167,7 @@ class TableSchema(object):
         * CREATE_OPTIONS == ``options['create_options']``
         * COMMENT  == ``options['comment']``
         """
-        if self._options == None:
+        if self._options is None:
             self._options = OrderedDict()
         return self._options
 

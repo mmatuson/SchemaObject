@@ -1,3 +1,13 @@
+== 0.5.7
+    * fixed bugs
+
+== 0.5.6
+    * fixed bugs
+    * merged with others commits
+
+== 0.5.5
+    * merged with others commits
+
 == 0.5.4
     * Sub-parts of indices are now correctly added
     * Fixes error with foreign keys against unique or primary key columns

@@ -8,7 +8,7 @@
 Functions
 ----------
 
-.. autofunction:: DatabaseSchemaBuilder
+.. autofunction:: database_schema_builder
 
 
 

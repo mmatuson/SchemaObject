@@ -1,7 +1,8 @@
 import re
 from schemaobject.collections import OrderedDict
 
-def ProcedureSchemaBuilder(database):
+
+def procedure_schema_builder(database):
     conn = database.parent.connection
 
     p = OrderedDict()
@@ -22,7 +23,8 @@ def ProcedureSchemaBuilder(database):
         pname = procedure['ROUTINE_NAME']
         sql = "SHOW CREATE PROCEDURE %s"
         proc_desc = conn.execute(sql % pname)
-        if not proc_desc: continue
+        if not proc_desc:
+            continue
 
         proc_desc = proc_desc[0]
 
@@ -30,8 +32,9 @@ def ProcedureSchemaBuilder(database):
         if not proc_desc['Create Procedure']:
             pp.definition = "() BEGIN SELECT 'Cannot access to mysql.proc in source DB'; END"
         else:
-            s = re.search('\(',proc_desc['Create Procedure'])
-            if not s: continue
+            s = re.search('\(', proc_desc['Create Procedure'])
+            if not s:
+                continue
 
             definition = re.sub('--.*',
                                 '',
@@ -42,6 +45,7 @@ def ProcedureSchemaBuilder(database):
 
     return p
 
+
 class ProcedureSchema(object):
     def __init__(self, name, parent):
         self.parent = parent
@@ -49,7 +53,6 @@ class ProcedureSchema(object):
         self.definition = None
 
     def define(self):
-        sql = []
         return "`%s` %s" % (self.name, self.definition)
 
     def create(self):
@@ -58,7 +61,7 @@ class ProcedureSchema(object):
         return "DELIMITER ;; CREATE PROCEDURE %s;; DELIMITER ; SELECT 1;" % self.define()
 
     def modify(self, *args, **kwargs):
-        pass # Not needed for now, one cannot alter body
+        pass  # Not needed for now, one cannot alter body
 
     def drop(self):
         return "DROP PROCEDURE `%s`;" % self.name

@@ -8,7 +8,7 @@
 Functions
 ----------
 
-.. autofunction:: ColumnSchemaBuilder
+.. autofunction:: column_schema_builder
 
 
 

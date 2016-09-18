@@ -1,7 +1,8 @@
 import re
 from schemaobject.collections import OrderedDict
 
-def TriggerSchemaBuilder(database):
+
+def trigger_schema_builder(database):
     conn = database.parent.connection
 
     t = OrderedDict()
@@ -20,10 +21,10 @@ def TriggerSchemaBuilder(database):
 
     for trigger in triggers:
         trig_name = trigger['TRIGGER_NAME']
-        
+
         trig = TriggerSchema(name=trig_name, parent=database)
         body = trigger['ACTION_STATEMENT']
-        trig.statement = re.sub('\s\s+',' ', body)
+        trig.statement = re.sub('\s\s+', ' ', body)
         trig.timing = trigger['ACTION_TIMING']
         trig.event = trigger['EVENT_MANIPULATION']
         trig.table = trigger['EVENT_OBJECT_TABLE']
@@ -31,6 +32,7 @@ def TriggerSchemaBuilder(database):
         t[trig_name] = trig
 
     return t
+
 
 class TriggerSchema(object):
     def __init__(self, name, parent):
@@ -42,12 +44,11 @@ class TriggerSchema(object):
         self.table = None
 
     def define(self):
-        sql = []
-        sql.append("`%s` %s %s ON %s FOR EACH ROW %s" % (self.name, 
-                    self.timing, 
-                    self.event, 
-                    self.table, 
-                    self.statement))
+        sql = ["`%s` %s %s ON %s FOR EACH ROW %s" % (self.name,
+                                                     self.timing,
+                                                     self.event,
+                                                     self.table,
+                                                     self.statement)]
 
         return ' '.join(sql)
 
@@ -55,14 +56,14 @@ class TriggerSchema(object):
         # SELECT 1 is used so that filters applied to data don't mess
         # with the last DELIMITER
         return "DELIMITER ;; CREATE TRIGGER %s;; DELIMITER ; SELECT 1;" % self.define()
-   
+
     def modify(self):
-        pass # Need to drop + re-create
+        pass  # Need to drop + re-create
 
     def drop(self):
         return "DROP TRIGGER `%s`;" % self.name
 
-    def __eq__(self,other):
+    def __eq__(self, other):
         if not isinstance(other, TriggerSchema):
             return False
 

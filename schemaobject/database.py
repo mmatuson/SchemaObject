@@ -1,11 +1,12 @@
 from schemaobject.option import SchemaOption
-from schemaobject.table import TableSchemaBuilder
-from schemaobject.procedure import ProcedureSchemaBuilder
+from schemaobject.table import table_schema_builder
+from schemaobject.procedure import procedure_schema_builder
 from schemaobject.collections import OrderedDict
-from schemaobject.trigger import TriggerSchemaBuilder
-from schemaobject.view import ViewSchemaBuilder
+from schemaobject.trigger import trigger_schema_builder
+from schemaobject.view import view_schema_builder
 
-def DatabaseSchemaBuilder(instance):
+
+def database_schema_builder(instance):
     """
     Returns a dictionary loaded with all of the databases availale on
     the MySQL instance. ``instance`` must be an instance SchemaObject.
@@ -34,7 +35,6 @@ def DatabaseSchemaBuilder(instance):
         return d
 
     for db_info in databases:
-
         name = db_info['SCHEMA_NAME']
 
         db = DatabaseSchema(name=name, parent=instance)
@@ -64,7 +64,7 @@ class DatabaseSchema(object):
 
     .. note::
         DatabaseSchema objects are automatically created for you
-        by DatabaseSchemaBuilder and loaded under ``schema.databases``
+        by database_schema_builder and loaded under ``schema.databases``
     """
 
     def __init__(self, name, parent):
@@ -83,8 +83,9 @@ class DatabaseSchema(object):
           '>>> len(schema.databases['sakila'].tables)
           16
         """
-        if self._tables == None:
-            self._tables = TableSchemaBuilder(database=self)
+        if self._tables is None:
+            self._tables = table_schema_builder(database=self)
+
         return self._tables
 
     @property
@@ -92,8 +93,9 @@ class DatabaseSchema(object):
         """
         Lazily loaded dictionnary of all the views within this database. See ViewSchema for usage
         """
-        if self._views == None:
-            self._views = ViewSchemaBuilder(database=self)
+        if self._views is None:
+            self._views = view_schema_builder(database=self)
+
         return self._views
 
     @property
@@ -104,8 +106,9 @@ class DatabaseSchema(object):
         * CHARACTER SET  == ``options['charset']``
         * COLLATE == ``options['collation']``
         """
-        if self._options == None:
+        if self._options is None:
             self._options = OrderedDict()
+
         return self._options
 
     @property
@@ -114,7 +117,8 @@ class DatabaseSchema(object):
         Lazily loaded dictionnary of all the procedures within this database. See ProcedureSchema for usage.
         """
         if self._procedures is None:
-            self._procedures = ProcedureSchemaBuilder(database=self)
+            self._procedures = procedure_schema_builder(database=self)
+
         return self._procedures
 
     @property
@@ -123,7 +127,8 @@ class DatabaseSchema(object):
         Lazily loaded dictionnary of all the triggers within this database. See TriggerSchema for usage.
         """
         if self._triggers is None:
-            self._triggers = TriggerSchemaBuilder(database=self)
+            self._triggers = trigger_schema_builder(database=self)
+
         return self._triggers
 
     def select(self):
@@ -134,8 +139,10 @@ class DatabaseSchema(object):
         """
         return "USE `%s`;" % self.name
 
-    def fk_checks(self,val=1):
-        if not val in (0,1): val=1
+    def fk_checks(self, val=1):
+        if val not in (0, 1):
+            val = 1
+
         return "SET FOREIGN_KEY_CHECKS = %s;" % val
 
     def alter(self):
@@ -152,7 +159,9 @@ class DatabaseSchema(object):
           >>> schema.databases['sakila'].create()
           'CREATE DATABASE `sakila` CHARACTER SET=latin1 COLLATE=latin1_swedish_ci;'
         """
-        return "CREATE DATABASE `%s` %s %s;" % (self.name, self.options['charset'].create(), self.options['collation'].create())
+        return "CREATE DATABASE `%s` %s %s;" % (
+            self.name, self.options['charset'].create(), self.options['collation'].create()
+        )
 
     def drop(self):
         """
@@ -165,10 +174,12 @@ class DatabaseSchema(object):
     def __eq__(self, other):
         if not isinstance(other, DatabaseSchema):
             return False
-        return ((self.options['charset'] == other.options['charset'])
-                and (self.options['collation'] == other.options['collation'])
-                and (self.name == other.name)
-                and (self.tables == other.tables))
+        return (
+            (self.options['charset'] == other.options['charset'])
+            and (self.options['collation'] == other.options['collation'])
+            and (self.name == other.name)
+            and (self.tables == other.tables)
+        )
 
     def __ne__(self, other):
         return not self.__eq__(other)

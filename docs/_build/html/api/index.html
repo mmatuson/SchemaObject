@@ -59,7 +59,7 @@ Supports equality and inequality comparison of IndexSchema.</p>
 <tt class="docutils literal"><span class="pre">parent</span></tt> is an instance of TableSchema</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">IndexSchema objects are automatically created for you by IndexSchemaBuilder
+<p class="last">IndexSchema objects are automatically created for you by index_schema_builder
 and loaded under <tt class="docutils literal"><span class="pre">schema.databases[name].tables[name].indexes</span></tt></p>
 </div>
 <p>Example</p>
@@ -134,7 +134,7 @@ and loaded under <tt class="docutils literal"><span class="pre">schema.databases
 
 <dl class="function">
 <dt id="schemaobject.index.IndexSchemaBuilder">
-<tt class="descclassname">schemaobject.index.</tt><tt class="descname">IndexSchemaBuilder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobject.index.IndexSchemaBuilder" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">schemaobject.index.</tt><tt class="descname">index_schema_builder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobject.index.IndexSchemaBuilder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dictionary loaded with all of the indexes available in the table.
 <tt class="docutils literal"><span class="pre">table</span></tt> must be an instance of TableSchema.</p>
 <div class="admonition note">
