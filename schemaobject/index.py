@@ -1,7 +1,7 @@
 from schemaobject.collections import OrderedDict
 
 
-def IndexSchemaBuilder(table):
+def index_schema_builder(table):
     """
     Returns a dictionary loaded with all of the indexes available in the table.
     ``table`` must be an instance of TableSchema.
@@ -21,28 +21,28 @@ def IndexSchemaBuilder(table):
     for index in indexes:
         n = index['Key_name']
         if n not in idx:
-            Indexitem = IndexSchema(name=n, parent=table)
-            Indexitem.non_unique = (bool(index['Non_unique'])) # == not unique
-            Indexitem.table_name = index['Table']
+            indexitem = IndexSchema(name=n, parent=table)
+            indexitem.non_unique = (bool(index['Non_unique']))  # == not unique
+            indexitem.table_name = index['Table']
 
             key_type = index['Index_type'].upper()
 
             if index['Key_name'].upper() == "PRIMARY":
-                Indexitem.kind = "PRIMARY"
-            elif not Indexitem.non_unique:
-                Indexitem.kind = "UNIQUE"
+                indexitem.kind = "PRIMARY"
+            elif not indexitem.non_unique:
+                indexitem.kind = "UNIQUE"
             elif key_type in ('FULLTEXT', 'SPATIAL'):
-                Indexitem.kind = key_type
+                indexitem.kind = key_type
             else:
-                Indexitem.kind = "INDEX"
+                indexitem.kind = "INDEX"
 
             if key_type in ('BTREE', 'HASH', 'RTREE'):
-                Indexitem.type = key_type
+                indexitem.type = key_type
 
-            Indexitem.collation = index['Collation']
-            Indexitem.comment = index['Comment']
+            indexitem.collation = index['Collation']
+            indexitem.comment = index['Comment']
 
-            idx[n] = Indexitem
+            idx[n] = indexitem
 
         if index['Column_name'] not in idx[n].fields:
             idx[n].fields.insert(index['Seq_in_index'], (index['Column_name'], index['Sub_part'] or 0))
@@ -59,7 +59,7 @@ class IndexSchema(object):
     ``parent`` is an instance of TableSchema
 
     .. note::
-      IndexSchema objects are automatically created for you by IndexSchemaBuilder
+      IndexSchema objects are automatically created for you by index_schema_builder
       and loaded under ``schema.databases[name].tables[name].indexes``
 
     Example
@@ -103,11 +103,11 @@ class IndexSchema(object):
         self.fields = []
         self.type = None
         self.kind = None
-        self.collation = None #ignored by the parser. mysql 5.0+ all == A (ASC)
+        self.collation = None  # ignored by the parser. mysql 5.0+ all == A (ASC)
         self.comment = None
 
     @classmethod
-    def format_sub_part(self, field, length):
+    def format_sub_part(cls, field, length):
         """
         Generate the SQL to format the sub_part length of an indexed column name
 

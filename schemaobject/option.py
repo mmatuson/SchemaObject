@@ -44,7 +44,7 @@ class SchemaOption(object):
         if not self.value:
             return ''
 
-        if (isinstance(self.value, str) and ' ' in self.value):
+        if isinstance(self.value, str) and ' ' in self.value:
             return "%s='%s'" % (self.name, self.value)
 
         return "%s=%s" % (self.name, self.value)

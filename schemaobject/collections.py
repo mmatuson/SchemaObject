@@ -27,7 +27,7 @@ class OrderedDict(dict):
         return [(k, super(OrderedDict, self).__getitem__(k)) for k in self._sequence]
 
     def __iter__(self):
-        return self
+        return self.iterkeys()
 
     def __next__(self):
         i = self._current

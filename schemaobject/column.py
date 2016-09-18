@@ -1,7 +1,7 @@
 from schemaobject.collections import OrderedDict
 
 
-def ColumnSchemaBuilder(table):
+def column_schema_builder(table):
     """
     Returns a dictionary loaded with all of the columns availale in the table.
     ``table`` must be an instance of TableSchema.
@@ -60,7 +60,7 @@ class ColumnSchema(object):
     ``parent`` is an instance of TableSchema
 
     .. note::
-      ColumnSchema objects are automatically created for you by ColumnSchemaBuilder
+      ColumnSchema objects are automatically created for you by column_schema_builder
       and loaded under ``schema.databases[name].tables[name].columns``
 
     .. note::
@@ -100,7 +100,7 @@ class ColumnSchema(object):
 
         self.parent = parent
         self.name = name
-        self.field = name #alias for name, following mysql spec
+        self.field = name  # alias for name, following mysql spec
         self.ordinal_position = 0
         self.type = None
         self.charset = None
@@ -125,13 +125,14 @@ class ColumnSchema(object):
           >>> schema.databases['sakila'].tables['rental'].columns['rental_id'].define()
           '`rental_id` INT(11) NOT NULL auto_increment FIRST'
         """
-        sql = []
-        sql.append("`%s` %s" % (self.field, self.type))
+        sql = ["`%s` %s" % (self.field, self.type)]
 
         if (self.collation and
-            self.charset and
-            (self.parent.options['charset'].value != self.charset or
-             self.parent.options['collation'].value != self.collation)):
+                self.charset and
+                (
+                                self.parent.options['charset'].value != self.charset or
+                                self.parent.options['collation'].value != self.collation
+                )):
             sql.append("CHARACTER SET %s COLLATE %s" % (self.charset, self.collation))
 
         if not self.null:
@@ -139,11 +140,9 @@ class ColumnSchema(object):
         else:
             sql.append("NULL")
 
-        if (self.default != None and
-            isinstance(self.default, str) and
-            self.default != 'CURRENT_TIMESTAMP'):
+        if self.default is not None and isinstance(self.default, str) and self.default is not 'CURRENT_TIMESTAMP':
             sql.append("DEFAULT '%s'" % self.default)
-        elif self.default != None:
+        elif self.default is not None:
             sql.append("DEFAULT %s" % self.default)
 
         if self.extra:
@@ -199,7 +198,7 @@ class ColumnSchema(object):
           >>> schema.databases['sakila'].tables['rental'].columns['rental_id'].drop()
           'DROP COLUMN `rental_id`'
         """
-        return "DROP COLUMN `%s`" % (self.field)
+        return "DROP COLUMN `%s`" % self.field
 
     def __eq__(self, other):
         if not isinstance(other, ColumnSchema):

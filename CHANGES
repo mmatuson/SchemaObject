@@ -1,10 +1,17 @@
+== 0.5.7
+    * fixed bugs
+
 == 0.5.6
-    * merged all changes from other developers
+    * fixed bugs
+    * merged with others commits
+
+== 0.5.5
+    * merged with others commits
 
 == 0.5.4
     * Sub-parts of indices are now correctly added
     * Fixes error with foreign keys against unique or primary key columns
-
+    
 == 0.5.3 / 2010-04-19
     * Column types are no longer forced uppercase
         - Fixes ENUM, SET bug where data values were incorrectly uppercased

@@ -8,13 +8,13 @@
 Functions
 ----------
 
-.. autofunction:: ColumnSchemaBuilder
+.. autofunction:: column_schema_builder
 
-.. autofunction:: ForeignKeySchemaBuilder
+.. autofunction:: foreign_key_schema_builder
 
-.. autofunction:: IndexSchemaBuilder
+.. autofunction:: index_schema_builder
 
-.. autofunction:: TableSchemaBuilder
+.. autofunction:: table_schema_builder
 
 
 

@@ -59,7 +59,7 @@ Supports equality and inequality comparison of ForeignKeySchema.</p>
 <tt class="docutils literal"><span class="pre">parent</span></tt> is an instance of TableSchema</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">ForeignKeySchema objects are automatically created for you by ForeignKeySchemaBuilder
+<p class="last">ForeignKeySchema objects are automatically created for you by foreign_key_schema_builder
 and loaded under <tt class="docutils literal"><span class="pre">schema.databases[name].tables[name].foreign_keys</span></tt></p>
 </div>
 <p>Example</p>
@@ -122,7 +122,7 @@ and loaded under <tt class="docutils literal"><span class="pre">schema.databases
 
 <dl class="function">
 <dt id="schemaobject.foreignkey.ForeignKeySchemaBuilder">
-<tt class="descclassname">schemaobject.foreignkey.</tt><tt class="descname">ForeignKeySchemaBuilder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobject.foreignkey.ForeignKeySchemaBuilder" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">schemaobject.foreignkey.</tt><tt class="descname">foreign_key_schema_builder</tt><big>(</big><em>table</em><big>)</big><a class="headerlink" href="#schemaobject.foreignkey.ForeignKeySchemaBuilder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dictionary loaded with all of the foreign keys available in the table.
 <tt class="docutils literal"><span class="pre">table</span></tt> must be an instance of TableSchema.</p>
 <div class="admonition note">

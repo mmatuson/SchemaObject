@@ -8,7 +8,7 @@
 Functions
 ----------
 
-.. autofunction:: IndexSchemaBuilder
+.. autofunction:: index_schema_builder
 
 
 
