@@ -156,7 +156,7 @@ class IndexSchema(object):
 
         return ' '.join(sql)
 
-    def drop(self):
+    def drop(self, alter_table=False):
         """
         Generate the SQL to drop this index
 
@@ -167,8 +167,11 @@ class IndexSchema(object):
         """
         if self.name == 'PRIMARY':
             return "DROP PRIMARY KEY"
-        else:
+        elif alter_table:
             return "DROP INDEX `%s`" % (self.name)
+        else:
+            return "DROP INDEX `%s` ON `%s`" % (self.name, self.parent.name)
+
 
     def __eq__(self, other):
         if not isinstance(other, IndexSchema):

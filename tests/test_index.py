@@ -68,6 +68,10 @@ class TestIndexSchema(unittest.TestCase):
         self.assertEqual(self.db.tables['rental'].indexes['rental_date'].drop(),
             "DROP INDEX `rental_date` ON `rental`")
 
+    def test_drop_index_alter(self):
+        self.assertEqual(self.db.tables['rental'].indexes['rental_date'].drop(True),
+            "DROP INDEX `rental_date`")
+
     def test_drop_primary_key(self):
         self.assertEqual(self.db.tables['customer'].indexes['PRIMARY'].drop(),
             "DROP PRIMARY KEY")
