@@ -156,7 +156,7 @@ class IndexSchema(object):
 
         return ' '.join(sql)
 
-    def drop(self, alter_table=False):
+    def drop(self, alter_table=True):
         """
         Generate the SQL to drop this index
 
