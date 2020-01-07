@@ -31,6 +31,7 @@ def procedure_schema_builder(database):
         pp = ProcedureSchema(name=pname, parent=database)
         if not proc_desc['Create Procedure']:
             pp.definition = "() BEGIN SELECT 'Cannot access to mysql.proc in source DB'; END"
+            pp.raw_definition = pp.definition
         else:
             s = re.search('\(', proc_desc['Create Procedure'])
             if not s:
@@ -40,7 +41,8 @@ def procedure_schema_builder(database):
                                 '',
                                 proc_desc['Create Procedure'][s.start():])
 
-            pp.definition = re.sub('\s\s+', ' ', definition)
+            pp.definition = re.sub('\s+', ' ', definition)
+            pp.raw_definition = proc_desc['Create Procedure'][s.start():]
         p[pname] = pp
 
     return p
@@ -53,7 +55,7 @@ class ProcedureSchema(object):
         self.definition = None
 
     def define(self):
-        return "`%s` %s" % (self.name, self.definition)
+        return "`%s` %s" % (self.name, self.raw_definition)
 
     def create(self):
         # SELECT 1 is used so that filters applied to data don't mess
