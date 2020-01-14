@@ -42,7 +42,7 @@ def procedure_schema_builder(database):
                                 proc_desc['Create Procedure'][s.start():])
 
             pp.definition = re.sub('\s+', ' ', definition)
-            pp.raw_definition = proc_desc['Create Procedure'][s.start():]
+            pp.raw_definition = proc_desc['Create Procedure'][s.start():]
         p[pname] = pp
 
     return p
