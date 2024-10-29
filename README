@@ -1,7 +1,7 @@
-SchemaObject v0.5.8 documentation
+SchemaObject v0.5.11 documentation
 +++++++++++++++++++++++++++++++++
 
-SchemaObject provides a simple, easy to use Python object interface to a MySQL database schema. You can effortlessly write tools to test, validate, sync, migrate, or manage your schema as well as generate the SQL necessary to make changes to the it. 
+SchemaObject provides a simple, easy to use Python object interface to a MySQL database schema. You can effortlessly write tools to test, validate, sync, migrate, or manage your schema as well as generate the SQL necessary to make changes to the it.
 
 Example 1: Verify all tables are InnoDB
 ---------------------------------------
@@ -17,12 +17,12 @@ Example 2: Verify our MySQL instance is at least version 5.1
     import schemaobject
     schema  = schemaobject.SchemaObject('mysql://username:password@localhost:3306/mydb')
     assert schema.version >= '5.1.0'
-        
-        
+
+
 Notes and Limitations
 ---------------------
-* SchemaObject instances are read-only. Modifying the object or calling create(), modify(), alter(), or drop() will not change your schema. 
-* The MySQL User needs to have privileges to execute SELECT and SHOW statements, as well as access the INFORMATION_SCHEMA. 
+* SchemaObject instances are read-only. Modifying the object or calling create(), modify(), alter(), or drop() will not change your schema.
+* The MySQL User needs to have privileges to execute SELECT and SHOW statements, as well as access the INFORMATION_SCHEMA.
 * All Databases, Tables, Columns, Indexes, and Foreign Keys are lazily loaded.
 * SchemaObject does not load Events, Triggers, or Stored Procedures.
 
@@ -33,7 +33,7 @@ Download and Install
 Prerequisites
 -------------
 * SchemaObject has been tested against Python 2.4, 2.5, and 2.6.
-* To use SchemaObject, you need to have MySQL <http://www.mysql.com/>, version 5.0 or higher and MySQLdb <http://sourceforge.net/projects/mysql-python>, version 1.2.1p2 or higher installed. 
+* To use SchemaObject, you need to have MySQL <http://www.mysql.com/>, version 5.0 or higher and MySQLdb <http://sourceforge.net/projects/mysql-python>, version 1.2.1p2 or higher installed.
 * To run the test suite, you need to install a copy of the Sakila Database <http://dev.mysql.com/doc/sakila/en/sakila.html>, version 0.8
 
 
@@ -51,10 +51,10 @@ Installing the latest development version
 Documentation
 =============
 Documentation is available @ http://matuson.com/code/schemaobject/
-    
+
 Status & License
 ================
-SchemaObject is under active development and released under the Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0>. 
+SchemaObject is under active development and released under the Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0>.
 
 You can obtain a copy of the latest source code from the Git repository <http://github.com/mmatuson/SchemaObject>, or fork it on Github <http://www.github.com>.
 
